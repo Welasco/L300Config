@@ -1,0 +1,594 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "StudantsAmount": {
+            "type": "int",
+            "metadata": {
+            "description": "The amount of studants that will be attending the training."
+            }
+        }
+    },
+    "variables": {
+        "_location": "[resourceGroup().location]",
+        "OnPremVNet-name": "OnPremVNet",
+        "OnPremVNet-addressPrefix": "172.30.0.0/16",
+        "OnPremVNet-stdsubnet-name": "StdSubnet",
+        "OnPremVNet-stdsubnet-subnetPrefix": "172.30.0.0/24",
+        "OnPremVNet-stdsubnet-subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('OnPremVNet-name'), variables('OnPremVNet-stdsubnet-name'))]",
+        "OnPremVNet-stdsubnet-nsgname": "[concat(variables('OnPremVNet-name'),'-','NSG')]",      
+        "OnPremVNet-sqlsubnet-name": "SQLSubnet",
+        "OnPremVNet-sqlsubnet-subnetPrefix": "172.30.1.0/24",
+        "OnPremVNet-sqlsubnet-subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('OnPremVNet-name'), variables('OnPremVNet-sqlsubnet-name'))]",      
+        "OnPremVNet-gwsubnet-name": "GatewaySubnet",
+        "OnPremVNet-gwsubnet-subnetPrefix": "172.30.2.0/24",
+        "OnPremVNet-gwsubnet-subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('OnPremVNet-name'), variables('OnPremVNet-gwsubnet-name'))]",        
+        "OnPremVNet-VPNGW-name": "VPNGW2",
+        "OnPremVNet-VPNGW-publicIPName": "VPNGW2-PublicIP",
+        "OnPremVNet-VPNGW-SKU": "VpnGw1",
+        "OnPremVNet-VPNGW-localNetworkGateway-Name": "OnPremVnet-Local-VPNGW1",
+        "OnPremVNet-VPNGW-connection-name": "OnPremVnet-VpnGw2-to-CloudVNet-VpnGw1",
+        "OnPremVNet-VPNGW-connection-sharedKey": "123abc",
+
+        "CloudVNet-name": "CloudVNet",
+        "CloudVNet-addressPrefix": "172.31.0.0/16",
+        "CloudVNet-subnet-name": "DefaultSubnet",
+        "CloudVNet-subnet-subnetPrefix": "172.31.0.0/24",
+        "CloudVNet-subnet-subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('CloudVNet-name'), variables('CloudVNet-subnet-name'))]",      
+        "CloudVNet-subnet-nsgname": "[concat(variables('CloudVNet-name'),'-','NSG')]",      
+        "CloudVNet-gwsubnet-name": "GatewaySubnet",
+        "CloudVNet-gwsubnet-subnetPrefix": "172.31.2.0/24",
+        "CloudVNet-gwsubnet-subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('CloudVNet-name'), variables('CloudVNet-gwsubnet-name'))]",          
+        "CloudVNet-VPNGW-name": "VPNGW1",
+        "CloudVNet-VPNGW-publicIPName": "VPNGW1-PublicIP",
+        "CloudVNet-VPNGW-SKU": "VpnGw1",      
+        "CloudVNet-VPNGW-vpnClientAddressPoolPrefix": "10.30.30.0/24",
+        "CloudVNet-VPNGW-localNetworkGateway-Name": "CloudVNet-Local-VPNGW2",
+        "CloudVNet-VPNGW-connection-name": "CloudVNet-VpnGw1-to-OnPremVnet-VpnGw2",
+        "CloudVNet-VPNGW-connection-sharedKey": "123abc",  
+
+        "VMSQL-name": "VMSQL",
+        "VMSQL-adminUsername": "L300ConfigAdmin",
+        "VMSQL-adminPassword": "No_P@ssw0rd!",
+        "VMSQL-nicName": "VMSQL-Nic",    
+        "VMSQL-PrivateIP": "172.30.0.4",  
+        "VMSQL-PublicIP-Name": "VMSQL-Pub1",
+        "VMSQL-scriptFolder": ".",
+        "VMSQL-scriptFileName": "CSE.ps1",      
+        "VMSQL-scriptParameters": "",
+        "VMSQL-dnsName": "[toLower(concat(variables('VMSQL-name'),'-',toLower(uniqueString(resourceGroup().id))))]",
+        
+        "VMDNS-name": "VMDNS",
+        "VMDNS-adminUsername": "L300ConfigAdmin",
+        "VMDNS-adminPassword": "No_P@ssw0rd!",
+        "VMDNS-nicName": "VMDNS-Nic",
+        "VMDNS-PrivateIP": "172.31.0.4",
+        "VMDNS-PublicIP-Name": "VMDNS-Pub1",  
+        "VMDNS-scriptFolder": ".",
+        "VMDNS-scriptFileName": "CSE.ps1",   
+        "VMDNS-scriptParameters": "",
+        "VMDNS-dnsName": "[toLower(concat(variables('VMDNS-name'),'-',toLower(uniqueString(resourceGroup().id))))]",
+
+        "VMSTD-name": "VMSTD-",
+        "VMSTD-Amount": "[parameters('StudantsAmount')]",
+        "VMSTD-Amount-math": "[add(div(variables('VMSTD-Amount'), 2), 1)]",
+        "VMSTD-adminUsername": "AdminStd",
+        "VMSTD-adminPassword": "No_P@ssw0rd!",
+        "VMSTD-nicName": "VMSTD-Nic-",
+        "VMSTD-PrivateIP": "172.30.0.",
+        "VMSTD-PublicIP-Name": "VMSTD-Pub-",        
+        "VMSTD-dnsName": "[toLower(variables('VMSTD-name'))]",
+        "VMSTD-scriptFolder": ".",
+        "VMSTD-scriptFileName": "CSERDP.ps1",  
+        "VMSTD-scriptParameters": "",       
+        "AzureDNSServerIP": "168.63.129.16",
+
+        "WEBFARM-name": "WEBFARM-",
+        "WEBAPP-name": "WEBAPPSTD-",
+
+        "SERVICEBUS-name": "[concat('servicebusl300',toLower(uniqueString(resourceGroup().id)))]"
+    },
+    "resources": [
+        {
+            "apiVersion": "2018-10-01",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[variables('OnPremVNet-stdsubnet-nsgname')]",
+            "location": "[variables('_location')]",
+            "properties": {
+              "securityRules": [
+                    {
+                        "name": "RDP",
+                            "properties": {
+                            "description": "RDP",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1006,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "SQL",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "1433",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1007,
+                            "direction": "Inbound"
+                        }
+                    }                              
+                ]
+            }
+        },     
+        {
+            "apiVersion": "2018-10-01",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[variables('CloudVNet-subnet-nsgname')]",
+            "location": "[variables('_location')]",
+            "properties": {
+              "securityRules": [
+                    {
+                        "name": "RDP",
+                            "properties": {
+                            "description": "RDP",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1006,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "HTTP",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "80",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1007,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "HTTPs",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "443",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1008,
+                            "direction": "Inbound"
+                        }
+                    }                                               
+                ]
+            }
+        },        
+        {
+            "apiVersion": "2018-04-01",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[variables('OnPremVNet-name')]",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('OnPremVNet-stdsubnet-nsgname'))]"
+            ],              
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('OnPremVNet-addressPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('OnPremVNet-stdsubnet-name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('OnPremVNet-stdsubnet-subnetPrefix')]",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('OnPremVNet-stdsubnet-nsgname'))]"
+                            }                            
+                        }
+                    },
+                    {
+                        "name": "[variables('OnPremVNet-sqlsubnet-name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('OnPremVNet-sqlsubnet-subnetPrefix')]",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('OnPremVNet-stdsubnet-nsgname'))]"
+                            }                            
+                        }
+                    },
+                    {
+                        "name": "[variables('OnPremVNet-gwsubnet-name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('OnPremVNet-gwsubnet-subnetPrefix')]"                          
+                        }
+                    }                                     
+                ]
+            }
+        },        
+        {
+            "apiVersion": "2018-04-01",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[variables('CloudVNet-name')]",
+            "location": "[variables('_location')]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('CloudVNet-addressPrefix')]"
+                    ]
+                },
+                "dhcpOptions":{
+                    "dnsServers":[
+                        "[variables('VMDNS-PrivateIP')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('CloudVNet-subnet-name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('CloudVNet-subnet-subnetPrefix')]",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('CloudVNet-subnet-nsgname'))]"
+                            }     
+                        }
+                    },
+                    {
+                        "name": "[variables('CloudVNet-gwsubnet-name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('CloudVNet-gwsubnet-subnetPrefix')]"                          
+                        }
+                    }
+                ]
+            }
+        },    
+        {
+            "apiVersion": "2017-06-01",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[variables('OnPremVNet-VPNGW-publicIPName')]",
+            "location": "[variables('_location')]",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic"
+            }
+        },
+        {
+            "apiVersion": "2018-07-01",
+            "type": "Microsoft.Network/virtualNetworkGateways",
+            "name": "[variables('OnPremVNet-VPNGW-name')]",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('OnPremVNet-VPNGW-publicIPName'))]",
+                "[concat('Microsoft.Network/virtualNetworks/', variables('OnPremVNet-name'))]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('OnPremVNet-gwsubnet-subnetRef')]"
+                            },
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('OnPremVNet-VPNGW-publicIPName'))]"
+                            }
+                        },
+                        "name": "vnetGatewayConfig"
+                    }
+                ],
+                "sku": {
+                    "name": "[variables('OnPremVNet-VPNGW-SKU')]",
+                    "tier": "[variables('OnPremVNet-VPNGW-SKU')]",
+                    "capacity": 1
+                },
+                "gatewayType": "Vpn",
+                "vpnType": "RouteBased",
+                "enableBgp": "false"
+            }
+        },  
+        {
+            "apiVersion": "2017-06-01",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[variables('CloudVNet-VPNGW-publicIPName')]",
+            "location": "[variables('_location')]",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic"
+            }
+        },          
+        {
+            "apiVersion": "2018-07-01",
+            "type": "Microsoft.Network/virtualNetworkGateways",
+            "name": "[variables('CloudVNet-VPNGW-name')]",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('CloudVNet-VPNGW-publicIPName'))]",
+                "[concat('Microsoft.Network/virtualNetworks/', variables('CloudVNet-name'))]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('CloudVNet-gwsubnet-subnetRef')]"
+                            },
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('CloudVNet-VPNGW-publicIPName'))]"
+                            }
+                        },
+                        "name": "vnetGatewayConfig"
+                    }
+                ],
+                "sku": {
+                    "name": "[variables('CloudVNet-VPNGW-SKU')]",
+                    "tier": "[variables('CloudVNet-VPNGW-SKU')]",
+                    "capacity": 1
+                },
+                "gatewayType": "Vpn",
+                "vpnType": "RouteBased",
+                "enableBgp": "false",
+                "vpnClientConfiguration": {
+                    "vpnClientAddressPool": {
+                        "addressPrefixes": [
+                            "[variables('CloudVNet-VPNGW-vpnClientAddressPoolPrefix')]"
+                        ]
+                    },
+                    "vpnClientProtocols": [
+                        "SSTP"
+                    ],
+                    "vpnClientRootCertificates": [
+                        {
+                            "name": "AppServiceCertificate.cer",
+                            "properties": {
+                                "publicCertData": "MIIDIDCCAgygAwIBAgIQukf4xfWi15NEaoF9BBxDITAJBgUrDgMCHQUAMCMxITAfBgNVBAMTGFdlYnNpdGVzQ2VydGlmaWNhdGVWbmV0MjAeFw0xOTA0MTgwMjEyNThaFw0zOTEyMzEyMzU5NTlaMCMxITAfBgNVBAMTGFdlYnNpdGVzQ2VydGlmaWNhdGVWbmV0MjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKqdP/Ttp5XFu6ao+l4FxnPbsbOFN1uuW+I2WoRBJ6gxBLLwnUIQHCRBerGSSYRvgkfFzqYiG3BXOmBR4uQfhzLSErbRb429xv0Nj71DqxAKsw+nypiWYkbxMFNof9uHKw4ZljxkLVeMzQv0MG9NZc8lZv6o6NGmOm62It/DwSb5em/71Pzkq5vxCmyg4oGHpl58DKPK+4UcCUfKrUC0v1OAEeT/axQ/JYrgFUeU3OuM6nmNykic+oqy9U/hYlIYEwe5WGdYY5lgfEdQbdcZZF3E38cQhGtdBYxt8prs3FR/3ZUj0T114+IcsEtPhZFonLLkU2c4WKgJ5lfijOp6K1cCAwEAAaNYMFYwVAYDVR0BBE0wS4AQCBan/0pdaUk0IzDUnzPHzaElMCMxITAfBgNVBAMTGFdlYnNpdGVzQ2VydGlmaWNhdGVWbmV0MoIQukf4xfWi15NEaoF9BBxDITAJBgUrDgMCHQUAA4IBAQBjiDv735wBR+jgc5gkmbJwAxXInU6T3hwIolaepXL5KYtbYQsB4SWHafnnBTvn/L7bnh2dyEuHnfIA+FAM4XrIdd6qm4VS7tMpoNnIZYkvJ5QUsM+nfwqaC7QwLo+6+ox5UDVB2vHyakX7PAVM4HiJILOpznY05DitTyUP5M72hLHMRWWKghJ5j5VMzeYDpW8SLHzNfBf7iF8Ax+zxRgTqLGxV9X6xFUwztqs3umW0eYAUrsLIi+BAmSrL27RAJdjhA3JP36rPy/fesNArnJS1oYgRuj3TFwGwPiuw4CQGOgp0IBPpuxAD2rKW1VcuxYHyo2z/V8mPu2vyeGO1s54R"
+                            }
+                        }
+                    ],
+                    "vpnClientRevokedCertificates": [],
+                    "vpnClientIpsecPolicies": []
+                }              
+            }
+        },          
+        {
+            "apiVersion": "2017-06-01",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[variables('publicIPAddressName')]",
+            "location": "[variables('_location')]",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "dnsSettings": {
+                    "domainNameLabel": "[variables('dnsNameForPublicIP')]"
+                }
+            }
+        },
+        {
+            "apiVersion": "2018-04-01",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[variables('nicName')]",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "[variables('publicIPAddressName')]",
+                "[variables('virtualNetworkName')]"
+            ],
+            "properties": {
+                "dnsSettings":{
+                    "dnsServers":[
+                        "[variables('AzureDNSServer')]"
+                    ]
+                },  
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "static",
+                            "privateIPAddress": "[variables('DNSServerAddress')]",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
+                            },
+                            "subnet": {
+                                "id": "[variables('subnetRef')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "apiVersion": "2018-04-01",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[variables('vmName')]",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "[variables('nicName')]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_D1_v2"
+                },
+                "osProfile": {
+                    "computerName": "[variables('vmName')]",
+                    "adminUsername": "[variables('adminUsername')]",
+                    "adminPassword": "[variables('adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2016-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "createOption": "FromImage"
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [
+                {
+                    "type": "extensions",
+                    "name": "CustomScriptExtension",
+                    "apiVersion": "2017-03-30",
+                    "location": "[variables('_location')]",
+                    "dependsOn": [
+                        "[variables('vmName')]"
+                    ],
+                    "properties": {
+                        "publisher": "Microsoft.Compute",
+                        "type": "CustomScriptExtension",
+                        "typeHandlerVersion": "1.8",
+                        "autoUpgradeMinorVersion": true,
+                        "settings": {
+                            "fileUris": [
+                                "https://raw.githubusercontent.com/Welasco/ASELab/master/./CSE.ps1"
+                            ],
+                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFolder'), '/', variables('scriptFileName'), ' ', variables('scriptParameters'))]"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "apiVersion": "2017-06-01",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[concat(variables('RDPpublicIPAddressName'),copyIndex(1))]",
+            "location": "[variables('_location')]",
+            "copy": {
+                "name": "publicIPLoop",
+                "count": "[variables('RDPServersAmount')]"
+            },      
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "dnsSettings": {
+                "domainNameLabel": "[concat(variables('RDPdnsNameForPublicIP'), copyIndex(1), '-', toLower(uniqueString(resourceGroup().id)))]"
+                }
+            }
+        },   
+        {
+            "apiVersion": "2018-04-01",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[concat(variables('RDPnicName'),copyIndex(1))]",
+            "location": "[variables('_location')]",
+            "copy": {
+                "name": "nicLoop",
+                "count": "[variables('RDPServersAmount')]"
+            },      
+            "dependsOn": [
+                "[variables('nicName')]",
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('RDPpublicIPAddressName'),copyIndex(1))]",
+                "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"     
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(variables('RDPpublicIPAddressName'), copyIndex(1)))]"
+                            },
+                            "subnet": {
+                                "id": "[variables('subnetRef')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },     
+        {
+            "apiVersion": "2018-04-01",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[concat(variables('RDPServerName'),copyIndex(1))]",
+            "location": "[variables('_location')]",
+            "copy": {
+                "name": "vmLoop",
+                "count": "[variables('RDPServersAmount')]"
+            },      
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkInterfaces/', variables('RDPnicName'), copyIndex(1))]"
+            ],
+            "properties": {
+                    "hardwareProfile": {
+                    "vmSize": "Standard_D1_v2"
+                },
+                "osProfile": {
+                    "computerName": "[concat(variables('RDPServerName'),copyIndex(1))]",
+                    "adminUsername": "[variables('adminUsername')]",
+                    "adminPassword": "[variables('adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2016-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "createOption": "FromImage"
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('RDPnicName'),copyIndex(1)))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [
+                {
+                    "type": "extensions",
+                    "name": "CustomScriptExtension",
+                    "apiVersion": "2017-03-30",
+                    "location": "[variables('_location')]",  
+                    "dependsOn": [
+                        "[concat('Microsoft.Compute/virtualMachines/', variables('RDPServerName'), copyIndex(1))]"
+                    ],
+                    "properties": {
+                        "publisher": "Microsoft.Compute",
+                        "type": "CustomScriptExtension",
+                        "typeHandlerVersion": "1.8",
+                        "autoUpgradeMinorVersion": true,
+                        "settings": {
+                            "fileUris": [
+                                "https://raw.githubusercontent.com/Welasco/ASELab/master/./CSERDP.ps1"
+                            ],
+                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFolder'), '/', variables('RDPscriptFileName'), ' ', variables('scriptParameters'))]"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "type": "Microsoft.Authorization/locks",
+            "apiVersion": "2017-04-01",
+            "name": "[resourceGroup().name]",
+            "properties":
+            {
+                "level": "CanNotDelete",
+                "notes": "This lock is to avoid accidental deletion of resource group."
+            }
+        }  
+    ],
+    "outputs": {
+        "vm-fqdn": {
+            "type": "string",
+            "value": "[reference(variables('publicIPAddressName'), '2016-03-30').dnsSettings.fqdn]"
+        }
+    }
+  }

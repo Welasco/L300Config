@@ -1,0 +1,25 @@
+https://github.com/Azure/azure-quickstart-templates/blob/master/201-site-to-site-vpn/azuredeploy.json
+https://github.com/Azure/azure-quickstart-templates
+https://github.com/Azure/azure-quickstart-templates/tree/master/101-site-to-site-vpn-create
+https://github.com/Azure/azure-quickstart-templates/blob/master/201-sqlmi-new-vnet-w-point-to-site-vpn/azuredeploy.json
+
+https://brentdacodemonkey.wordpress.com/2017/03/09/azure-resource-manager-template-tips-and-tricks/
+Get a property of a deployed resource value:
+"outputs": {
+    "databaseServerFQDN" : {
+        "type" : "string",
+        "value": "[reference(variables('sqlDBServerName')).fullyQualifiedDomainName]"
+    },
+    "databaseName" : {
+        "type" : "string",
+        "value": "[parameters('databaseName')]"
+    }
+}
+
+"[reference(resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))).IpAddress]"
+https://serverfault.com/questions/768562/output-ipaddress-of-vm-using-arm-template
+
+
+VPN Powershell integration
+https://docs.microsoft.com/en-us/azure/app-service/web-sites-integrate-with-vnet#powershell-automation
+https://gallery.technet.microsoft.com/scriptcenter/Connect-an-app-in-Azure-ab7527e3

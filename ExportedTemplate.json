@@ -1,0 +1,2715 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "connections_GW1toGW2_location": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "connections_GW1toGW2_location_1": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "connections_GW2toGW1_location": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "connections_GW2toGW1_location_1": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "networkSecurityGroups_vnet1Nsg_destinationPortRange": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "networkSecurityGroups_vnet1Nsg_sourceAddressPrefix": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "networkSecurityGroups_vnet1Nsg_destinationPortRange_1": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "networkSecurityGroups_vnet1Nsg_destinationPortRange_2": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "networkSecurityGroups_vnet1Nsg_destinationPortRange_3": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "securityRules_Cleanuptool_Allow_100_destinationPortRange": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "securityRules_Cleanuptool_Allow_100_sourceAddressPrefix": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "securityRules_Cleanuptool_Allow_101_destinationPortRange": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "securityRules_Cleanuptool_Allow_102_destinationPortRange": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "securityRules_Cleanuptool_Deny_103_destinationPortRange": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "networkSecurityGroups_vnet2Nsg_destinationPortRange": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "networkSecurityGroups_vnet2Nsg_sourceAddressPrefix": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "networkSecurityGroups_vnet2Nsg_destinationPortRange_1": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "networkSecurityGroups_vnet2Nsg_destinationPortRange_2": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "networkSecurityGroups_vnet2Nsg_destinationPortRange_3": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "securityRules_Cleanuptool_Allow_100_destinationPortRange_1": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "securityRules_Cleanuptool_Allow_100_sourceAddressPrefix_1": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "securityRules_Cleanuptool_Allow_101_destinationPortRange_1": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "securityRules_Cleanuptool_Allow_102_destinationPortRange_1": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "securityRules_Cleanuptool_Deny_103_destinationPortRange_1": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "sites_L300TestApp_name": {
+            "defaultValue": "L300TestApp",
+            "type": "String"
+        },
+        "serverfarms_L300ASP_name": {
+            "defaultValue": "L300ASP",
+            "type": "String"
+        },
+        "namespaces_L300SBus_name": {
+            "defaultValue": "L300SBus",
+            "type": "String"
+        },
+        "virtualMachines_VMhc_name": {
+            "defaultValue": "VMhc",
+            "type": "String"
+        },
+        "connections_GW1toGW2_name": {
+            "defaultValue": "GW1toGW2",
+            "type": "String"
+        },
+        "connections_GW2toGW1_name": {
+            "defaultValue": "GW2toGW1",
+            "type": "String"
+        },
+        "virtualMachines_vmDNS_name": {
+            "defaultValue": "vmDNS",
+            "type": "String"
+        },
+        "virtualMachines_vmSQL_name": {
+            "defaultValue": "vmSQL",
+            "type": "String"
+        },
+        "virtualNetworks_Vnet1_name": {
+            "defaultValue": "Vnet1",
+            "type": "String"
+        },
+        "virtualNetworks_Vnet2_name": {
+            "defaultValue": "Vnet2",
+            "type": "String"
+        },
+        "publicIPAddresses_GW1_IP_name": {
+            "defaultValue": "GW1-IP",
+            "type": "String"
+        },
+        "publicIPAddresses_GW2_IP_name": {
+            "defaultValue": "GW2-IP",
+            "type": "String"
+        },
+        "networkInterfaces_vmhc523_name": {
+            "defaultValue": "vmhc523",
+            "type": "String"
+        },
+        "publicIPAddresses_VMhc_ip_name": {
+            "defaultValue": "VMhc-ip",
+            "type": "String"
+        },
+        "storageAccounts_l300disks_name": {
+            "defaultValue": "l300disks",
+            "type": "String"
+        },
+        "networkInterfaces_vmdns253_name": {
+            "defaultValue": "vmdns253",
+            "type": "String"
+        },
+        "networkInterfaces_vmsql225_name": {
+            "defaultValue": "vmsql225",
+            "type": "String"
+        },
+        "publicIPAddresses_vmSQL_ip_name": {
+            "defaultValue": "vmSQL-ip",
+            "type": "String"
+        },
+        "virtualNetworkGateways_GW1_name": {
+            "defaultValue": "GW1",
+            "type": "String"
+        },
+        "virtualNetworkGateways_GW2_name": {
+            "defaultValue": "GW2",
+            "type": "String"
+        },
+        "publicIPAddresses_vm2dns_ip_name": {
+            "defaultValue": "vm2dns-ip",
+            "type": "String"
+        },
+        "storageAccounts_l300storage_name": {
+            "defaultValue": "l300storage",
+            "type": "String"
+        },
+        "localNetworkGateways_LocalGW1_name": {
+            "defaultValue": "LocalGW1",
+            "type": "String"
+        },
+        "localNetworkGateways_LocalGW2_name": {
+            "defaultValue": "LocalGW2",
+            "type": "String"
+        },
+        "networkSecurityGroups_VMhc_nsg_name": {
+            "defaultValue": "VMhc-nsg",
+            "type": "String"
+        },
+        "networkSecurityGroups_vnet1Nsg_name": {
+            "defaultValue": "vnet1Nsg",
+            "type": "String"
+        },
+        "networkSecurityGroups_vnet2Nsg_name": {
+            "defaultValue": "vnet2Nsg",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/connections",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('connections_GW1toGW2_name')]",
+            "location": "westus",
+            "properties": {
+                "resourceGuid": "49220097-ea01-4197-a22d-28073433faa8",
+                "virtualNetworkGateway1": {
+                    "location": "[parameters('connections_GW1toGW2_location')]",
+                    "properties": {}
+                },
+                "localNetworkGateway2": {
+                    "location": "[parameters('connections_GW1toGW2_location_1')]",
+                    "properties": {}
+                },
+                "connectionType": "IPsec",
+                "connectionProtocol": "IKEv2",
+                "routingWeight": 0,
+                "enableBgp": false,
+                "usePolicyBasedTrafficSelectors": false,
+                "ipsecPolicies": [],
+                "expressRouteGatewayBypass": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/connections",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('connections_GW2toGW1_name')]",
+            "location": "westus",
+            "properties": {
+                "resourceGuid": "9f28854e-c181-4b2b-9437-c48831f8e3dc",
+                "virtualNetworkGateway1": {
+                    "location": "[parameters('connections_GW2toGW1_location')]",
+                    "properties": {}
+                },
+                "localNetworkGateway2": {
+                    "location": "[parameters('connections_GW2toGW1_location_1')]",
+                    "properties": {}
+                },
+                "connectionType": "IPsec",
+                "connectionProtocol": "IKEv2",
+                "routingWeight": 0,
+                "enableBgp": false,
+                "usePolicyBasedTrafficSelectors": false,
+                "ipsecPolicies": [],
+                "expressRouteGatewayBypass": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/localNetworkGateways",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('localNetworkGateways_LocalGW1_name')]",
+            "location": "westus",
+            "properties": {
+                "resourceGuid": "eb1ac881-1b71-4a84-8d77-f9c2879716bc",
+                "localNetworkAddressSpace": {
+                    "addressPrefixes": [
+                        "172.30.0.0/16"
+                    ]
+                },
+                "gatewayIpAddress": "40.112.168.143"
+            }
+        },
+        {
+            "type": "Microsoft.Network/localNetworkGateways",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('localNetworkGateways_LocalGW2_name')]",
+            "location": "westus",
+            "properties": {
+                "resourceGuid": "fc754f29-a225-40ae-9fed-93d1044ba99b",
+                "localNetworkAddressSpace": {
+                    "addressPrefixes": [
+                        "172.31.0.0/16",
+                        "192.168.30.0/27"
+                    ]
+                },
+                "gatewayIpAddress": "13.64.240.212"
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('networkSecurityGroups_VMhc_nsg_name')]",
+            "location": "westus",
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "a78abb5a-97f1-44e6-b2b3-b588fe4c1e08",
+                "securityRules": [
+                    {
+                        "name": "RDP",
+                        "etag": "W/\"f72e7008-1e2c-48be-9998-428eff93db7a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1003,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "SecurityCenter-JITRule_-1049672392_FCFA3C48225F40C1B62B2800A61926C2",
+                        "etag": "W/\"f72e7008-1e2c-48be-9998-428eff93db7a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "ASC JIT Network Access rule for policy 'default' of VM 'VMhc'.",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "172.30.0.5",
+                            "access": "Deny",
+                            "priority": 1002,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "HTTPS",
+                        "etag": "W/\"f72e7008-1e2c-48be-9998-428eff93db7a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "443",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1001,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "HTTP",
+                        "etag": "W/\"f72e7008-1e2c-48be-9998-428eff93db7a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "80",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1000,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    }
+                ],
+                "defaultSecurityRules": [
+                    {
+                        "name": "AllowVnetInBound",
+                        "etag": "W/\"f72e7008-1e2c-48be-9998-428eff93db7a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow inbound traffic from all VMs in VNET",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 65000,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowAzureLoadBalancerInBound",
+                        "etag": "W/\"f72e7008-1e2c-48be-9998-428eff93db7a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow inbound traffic from azure load balancer",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "AzureLoadBalancer",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 65001,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "DenyAllInBound",
+                        "etag": "W/\"f72e7008-1e2c-48be-9998-428eff93db7a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Deny all inbound traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 65500,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowVnetOutBound",
+                        "etag": "W/\"f72e7008-1e2c-48be-9998-428eff93db7a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow outbound traffic from all VMs to all VMs in VNET",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 65000,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowInternetOutBound",
+                        "etag": "W/\"f72e7008-1e2c-48be-9998-428eff93db7a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow outbound traffic from all VMs to Internet",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "Internet",
+                            "access": "Allow",
+                            "priority": 65001,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "DenyAllOutBound",
+                        "etag": "W/\"f72e7008-1e2c-48be-9998-428eff93db7a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Deny all outbound traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 65500,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('networkSecurityGroups_vnet1Nsg_name')]",
+            "location": "westus",
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "d4164a8d-a8e6-42fc-ba9b-c81864d1537f",
+                "securityRules": [
+                    {
+                        "name": "default-allow-sql",
+                        "etag": "W/\"2235bd91-7058-4374-9fd3-9a59e35b5093\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "1433",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1600,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "default-allow-rdp",
+                        "etag": "W/\"2235bd91-7058-4374-9fd3-9a59e35b5093\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1006,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "SecurityCenter-JITRule_-1565665146_9F66C980492E486997C2C001DE700854",
+                        "etag": "W/\"2235bd91-7058-4374-9fd3-9a59e35b5093\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "ASC JIT Network Access rule for policy 'default' of VM 'vmSQL'.",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "172.30.0.4",
+                            "access": "Deny",
+                            "priority": 1005,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "SecurityCenter-JITRule_-1049672392_FCFA3C48225F40C1B62B2800A61926C2",
+                        "etag": "W/\"2235bd91-7058-4374-9fd3-9a59e35b5093\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "ASC JIT Network Access rule for policy 'default' of VM 'VMhc'.",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "172.30.0.5",
+                            "access": "Deny",
+                            "priority": 1004,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "Cleanuptool-Allow-100",
+                        "etag": "W/\"2235bd91-7058-4374-9fd3-9a59e35b5093\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [
+                                "3389",
+                                "1433"
+                            ],
+                            "sourceAddressPrefixes": [
+                                "167.220.148.0/23",
+                                "131.107.147.0/24",
+                                "131.107.159.0/24",
+                                "131.107.160.0/24",
+                                "131.107.174.0/24",
+                                "167.220.24.0/24",
+                                "167.220.26.0/24",
+                                "167.220.238.0/27",
+                                "167.220.238.128/27",
+                                "167.220.238.192/27",
+                                "167.220.238.64/27",
+                                "167.220.232.0/23",
+                                "167.220.255.0/25",
+                                "167.220.242.0/27",
+                                "167.220.242.128/27",
+                                "167.220.242.192/27",
+                                "167.220.242.64/27",
+                                "94.245.87.0/24",
+                                "167.220.196.0/23",
+                                "194.69.104.0/25",
+                                "191.234.97.0/26",
+                                "167.220.0.0/23",
+                                "167.220.2.0/24",
+                                "207.68.190.32/27",
+                                "13.106.78.32/27",
+                                "10.254.32.0/20",
+                                "10.97.136.0/22",
+                                "13.106.174.32/27",
+                                "13.106.4.96/27"
+                            ],
+                            "destinationAddressPrefixes": [],
+                            "destinationPortRange": "[parameters('networkSecurityGroups_vnet1Nsg_destinationPortRange')]",
+                            "sourceAddressPrefix": "[parameters('networkSecurityGroups_vnet1Nsg_sourceAddressPrefix')]"
+                        }
+                    },
+                    {
+                        "name": "Cleanuptool-Allow-102",
+                        "etag": "W/\"2235bd91-7058-4374-9fd3-9a59e35b5093\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "AzureLoadBalancer",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 102,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [
+                                "3389",
+                                "1433"
+                            ],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": [],
+                            "destinationPortRange": "[parameters('networkSecurityGroups_vnet1Nsg_destinationPortRange_1')]"
+                        }
+                    },
+                    {
+                        "name": "Cleanuptool-Deny-103",
+                        "etag": "W/\"2235bd91-7058-4374-9fd3-9a59e35b5093\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 103,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [
+                                "3389",
+                                "1433"
+                            ],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": [],
+                            "destinationPortRange": "[parameters('networkSecurityGroups_vnet1Nsg_destinationPortRange_2')]"
+                        }
+                    },
+                    {
+                        "name": "Cleanuptool-Allow-101",
+                        "etag": "W/\"2235bd91-7058-4374-9fd3-9a59e35b5093\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 101,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [
+                                "1433",
+                                "3389"
+                            ],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": [],
+                            "destinationPortRange": "[parameters('networkSecurityGroups_vnet1Nsg_destinationPortRange_3')]"
+                        }
+                    }
+                ],
+                "defaultSecurityRules": [
+                    {
+                        "name": "AllowVnetInBound",
+                        "etag": "W/\"2235bd91-7058-4374-9fd3-9a59e35b5093\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow inbound traffic from all VMs in VNET",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 65000,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowAzureLoadBalancerInBound",
+                        "etag": "W/\"2235bd91-7058-4374-9fd3-9a59e35b5093\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow inbound traffic from azure load balancer",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "AzureLoadBalancer",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 65001,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "DenyAllInBound",
+                        "etag": "W/\"2235bd91-7058-4374-9fd3-9a59e35b5093\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Deny all inbound traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 65500,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowVnetOutBound",
+                        "etag": "W/\"2235bd91-7058-4374-9fd3-9a59e35b5093\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow outbound traffic from all VMs to all VMs in VNET",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 65000,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowInternetOutBound",
+                        "etag": "W/\"2235bd91-7058-4374-9fd3-9a59e35b5093\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow outbound traffic from all VMs to Internet",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "Internet",
+                            "access": "Allow",
+                            "priority": 65001,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "DenyAllOutBound",
+                        "etag": "W/\"2235bd91-7058-4374-9fd3-9a59e35b5093\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Deny all outbound traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 65500,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('networkSecurityGroups_vnet2Nsg_name')]",
+            "location": "westus",
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "9af33625-a16e-4434-9a51-6cdd9a3ef1c8",
+                "securityRules": [
+                    {
+                        "name": "RDP",
+                        "etag": "W/\"064907f1-6871-486a-99f9-0b2846c3b8a1\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1007,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "SecurityCenter-JITRule_474634106_4F446B1BAFFA462AB5D3797D5CA80A51",
+                        "etag": "W/\"064907f1-6871-486a-99f9-0b2846c3b8a1\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "ASC JIT Network Access rule for policy 'default' of VM 'vmDNS'.",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "172.31.0.4",
+                            "access": "Deny",
+                            "priority": 1006,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "HTTPS",
+                        "etag": "W/\"064907f1-6871-486a-99f9-0b2846c3b8a1\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "443",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1005,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "HTTP",
+                        "etag": "W/\"064907f1-6871-486a-99f9-0b2846c3b8a1\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "80",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1004,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "Cleanuptool-Allow-100",
+                        "etag": "W/\"064907f1-6871-486a-99f9-0b2846c3b8a1\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [
+                                "3389"
+                            ],
+                            "sourceAddressPrefixes": [
+                                "167.220.148.0/23",
+                                "131.107.147.0/24",
+                                "131.107.159.0/24",
+                                "131.107.160.0/24",
+                                "131.107.174.0/24",
+                                "167.220.24.0/24",
+                                "167.220.26.0/24",
+                                "167.220.238.0/27",
+                                "167.220.238.128/27",
+                                "167.220.238.192/27",
+                                "167.220.238.64/27",
+                                "167.220.232.0/23",
+                                "167.220.255.0/25",
+                                "167.220.242.0/27",
+                                "167.220.242.128/27",
+                                "167.220.242.192/27",
+                                "167.220.242.64/27",
+                                "94.245.87.0/24",
+                                "167.220.196.0/23",
+                                "194.69.104.0/25",
+                                "191.234.97.0/26",
+                                "167.220.0.0/23",
+                                "167.220.2.0/24",
+                                "207.68.190.32/27",
+                                "13.106.78.32/27",
+                                "10.254.32.0/20",
+                                "10.97.136.0/22",
+                                "13.106.174.32/27",
+                                "13.106.4.96/27"
+                            ],
+                            "destinationAddressPrefixes": [],
+                            "destinationPortRange": "[parameters('networkSecurityGroups_vnet2Nsg_destinationPortRange')]",
+                            "sourceAddressPrefix": "[parameters('networkSecurityGroups_vnet2Nsg_sourceAddressPrefix')]"
+                        }
+                    },
+                    {
+                        "name": "Cleanuptool-Allow-101",
+                        "etag": "W/\"064907f1-6871-486a-99f9-0b2846c3b8a1\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 101,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [
+                                "3389"
+                            ],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": [],
+                            "destinationPortRange": "[parameters('networkSecurityGroups_vnet2Nsg_destinationPortRange_1')]"
+                        }
+                    },
+                    {
+                        "name": "Cleanuptool-Allow-102",
+                        "etag": "W/\"064907f1-6871-486a-99f9-0b2846c3b8a1\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "AzureLoadBalancer",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 102,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [
+                                "3389"
+                            ],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": [],
+                            "destinationPortRange": "[parameters('networkSecurityGroups_vnet2Nsg_destinationPortRange_2')]"
+                        }
+                    },
+                    {
+                        "name": "Cleanuptool-Deny-103",
+                        "etag": "W/\"064907f1-6871-486a-99f9-0b2846c3b8a1\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 103,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [
+                                "3389"
+                            ],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": [],
+                            "destinationPortRange": "[parameters('networkSecurityGroups_vnet2Nsg_destinationPortRange_3')]"
+                        }
+                    }
+                ],
+                "defaultSecurityRules": [
+                    {
+                        "name": "AllowVnetInBound",
+                        "etag": "W/\"064907f1-6871-486a-99f9-0b2846c3b8a1\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow inbound traffic from all VMs in VNET",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 65000,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowAzureLoadBalancerInBound",
+                        "etag": "W/\"064907f1-6871-486a-99f9-0b2846c3b8a1\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow inbound traffic from azure load balancer",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "AzureLoadBalancer",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 65001,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "DenyAllInBound",
+                        "etag": "W/\"064907f1-6871-486a-99f9-0b2846c3b8a1\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Deny all inbound traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 65500,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowVnetOutBound",
+                        "etag": "W/\"064907f1-6871-486a-99f9-0b2846c3b8a1\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow outbound traffic from all VMs to all VMs in VNET",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "VirtualNetwork",
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 65000,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "AllowInternetOutBound",
+                        "etag": "W/\"064907f1-6871-486a-99f9-0b2846c3b8a1\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Allow outbound traffic from all VMs to Internet",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "Internet",
+                            "access": "Allow",
+                            "priority": 65001,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    },
+                    {
+                        "name": "DenyAllOutBound",
+                        "etag": "W/\"064907f1-6871-486a-99f9-0b2846c3b8a1\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "description": "Deny all outbound traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 65500,
+                            "direction": "Outbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [],
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": []
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('publicIPAddresses_GW1_IP_name')]",
+            "location": "westus",
+            "sku": {
+                "name": "Basic",
+                "tier": "Regional"
+            },
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "b235f3e4-ec76-4339-9724-c92ee45212f1",
+                "ipAddress": "40.112.168.143",
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "ipTags": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('publicIPAddresses_GW2_IP_name')]",
+            "location": "westus",
+            "sku": {
+                "name": "Basic",
+                "tier": "Regional"
+            },
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "6ffee9b5-b7e1-4274-93db-f04547a5b429",
+                "ipAddress": "13.64.240.212",
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "ipTags": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('publicIPAddresses_vm2dns_ip_name')]",
+            "location": "westus",
+            "sku": {
+                "name": "Basic",
+                "tier": "Regional"
+            },
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "44b33a54-217a-4c27-9fd3-4592bd3f9f9d",
+                "ipAddress": "40.78.89.90",
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Static",
+                "idleTimeoutInMinutes": 4,
+                "ipTags": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('publicIPAddresses_VMhc_ip_name')]",
+            "location": "westus",
+            "sku": {
+                "name": "Basic",
+                "tier": "Regional"
+            },
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "24f0dfaa-2045-473f-96df-bbc75021be34",
+                "ipAddress": "40.78.80.232",
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "ipTags": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('publicIPAddresses_vmSQL_ip_name')]",
+            "location": "westus",
+            "sku": {
+                "name": "Basic",
+                "tier": "Regional"
+            },
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "c95cee4f-6ee8-4917-81ec-fbd5b9e51233",
+                "ipAddress": "40.83.218.151",
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "dnsSettings": {
+                    "domainNameLabel": "l300vmsql",
+                    "fqdn": "l300vmsql.westus.cloudapp.azure.com"
+                },
+                "ipTags": []
+            }
+        },
+        {
+            "type": "Microsoft.Relay/namespaces",
+            "apiVersion": "2017-04-01",
+            "name": "[parameters('namespaces_L300SBus_name')]",
+            "location": "West US",
+            "sku": {
+                "name": "Standard",
+                "tier": "Standard"
+            },
+            "properties": {
+                "provisioningState": "Succeeded",
+                "metricId": "4f42d231-1050-4386-b5ca-54cc38d11edf:l300sbus",
+                "createdAt": "2019-05-01T00:54:50.17Z",
+                "updatedAt": "2019-05-01T00:55:15.43Z",
+                "serviceBusEndpoint": "[concat('https://', parameters('namespaces_L300SBus_name'), '.servicebus.windows.net:443/')]"
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2018-07-01",
+            "name": "[parameters('storageAccounts_l300disks_name')]",
+            "location": "westus",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "properties": {
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": false,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "enabled": true
+                        },
+                        "blob": {
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2018-07-01",
+            "name": "[parameters('storageAccounts_l300storage_name')]",
+            "location": "westus",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "StorageV2",
+            "properties": {
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": false,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "enabled": true
+                        },
+                        "blob": {
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                },
+                "accessTier": "Hot"
+            }
+        },
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2016-09-01",
+            "name": "[parameters('serverfarms_L300ASP_name')]",
+            "location": "West US",
+            "sku": {
+                "name": "S1",
+                "tier": "Standard",
+                "size": "S1",
+                "family": "S",
+                "capacity": 1
+            },
+            "kind": "app",
+            "properties": {
+                "name": "[parameters('serverfarms_L300ASP_name')]",
+                "perSiteScaling": false,
+                "reserved": false,
+                "targetWorkerCount": 0,
+                "targetWorkerSizeId": 0
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_vnet1Nsg_name'), '/Cleanuptool-Allow-100')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet1Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 100,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [
+                    "3389",
+                    "1433"
+                ],
+                "sourceAddressPrefixes": [
+                    "167.220.148.0/23",
+                    "131.107.147.0/24",
+                    "131.107.159.0/24",
+                    "131.107.160.0/24",
+                    "131.107.174.0/24",
+                    "167.220.24.0/24",
+                    "167.220.26.0/24",
+                    "167.220.238.0/27",
+                    "167.220.238.128/27",
+                    "167.220.238.192/27",
+                    "167.220.238.64/27",
+                    "167.220.232.0/23",
+                    "167.220.255.0/25",
+                    "167.220.242.0/27",
+                    "167.220.242.128/27",
+                    "167.220.242.192/27",
+                    "167.220.242.64/27",
+                    "94.245.87.0/24",
+                    "167.220.196.0/23",
+                    "194.69.104.0/25",
+                    "191.234.97.0/26",
+                    "167.220.0.0/23",
+                    "167.220.2.0/24",
+                    "207.68.190.32/27",
+                    "13.106.78.32/27",
+                    "10.254.32.0/20",
+                    "10.97.136.0/22",
+                    "13.106.174.32/27",
+                    "13.106.4.96/27"
+                ],
+                "destinationAddressPrefixes": [],
+                "destinationPortRange": "[parameters('securityRules_Cleanuptool_Allow_100_destinationPortRange')]",
+                "sourceAddressPrefix": "[parameters('securityRules_Cleanuptool_Allow_100_sourceAddressPrefix')]"
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_vnet2Nsg_name'), '/Cleanuptool-Allow-100')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet2Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 100,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [
+                    "3389"
+                ],
+                "sourceAddressPrefixes": [
+                    "167.220.148.0/23",
+                    "131.107.147.0/24",
+                    "131.107.159.0/24",
+                    "131.107.160.0/24",
+                    "131.107.174.0/24",
+                    "167.220.24.0/24",
+                    "167.220.26.0/24",
+                    "167.220.238.0/27",
+                    "167.220.238.128/27",
+                    "167.220.238.192/27",
+                    "167.220.238.64/27",
+                    "167.220.232.0/23",
+                    "167.220.255.0/25",
+                    "167.220.242.0/27",
+                    "167.220.242.128/27",
+                    "167.220.242.192/27",
+                    "167.220.242.64/27",
+                    "94.245.87.0/24",
+                    "167.220.196.0/23",
+                    "194.69.104.0/25",
+                    "191.234.97.0/26",
+                    "167.220.0.0/23",
+                    "167.220.2.0/24",
+                    "207.68.190.32/27",
+                    "13.106.78.32/27",
+                    "10.254.32.0/20",
+                    "10.97.136.0/22",
+                    "13.106.174.32/27",
+                    "13.106.4.96/27"
+                ],
+                "destinationAddressPrefixes": [],
+                "destinationPortRange": "[parameters('securityRules_Cleanuptool_Allow_100_destinationPortRange_1')]",
+                "sourceAddressPrefix": "[parameters('securityRules_Cleanuptool_Allow_100_sourceAddressPrefix_1')]"
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_vnet1Nsg_name'), '/Cleanuptool-Allow-101')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet1Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "sourceAddressPrefix": "VirtualNetwork",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 101,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [
+                    "1433",
+                    "3389"
+                ],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": [],
+                "destinationPortRange": "[parameters('securityRules_Cleanuptool_Allow_101_destinationPortRange')]"
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_vnet2Nsg_name'), '/Cleanuptool-Allow-101')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet2Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "sourceAddressPrefix": "VirtualNetwork",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 101,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [
+                    "3389"
+                ],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": [],
+                "destinationPortRange": "[parameters('securityRules_Cleanuptool_Allow_101_destinationPortRange_1')]"
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_vnet1Nsg_name'), '/Cleanuptool-Allow-102')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet1Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "sourceAddressPrefix": "AzureLoadBalancer",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 102,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [
+                    "3389",
+                    "1433"
+                ],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": [],
+                "destinationPortRange": "[parameters('securityRules_Cleanuptool_Allow_102_destinationPortRange')]"
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_vnet2Nsg_name'), '/Cleanuptool-Allow-102')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet2Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "sourceAddressPrefix": "AzureLoadBalancer",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 102,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [
+                    "3389"
+                ],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": [],
+                "destinationPortRange": "[parameters('securityRules_Cleanuptool_Allow_102_destinationPortRange_1')]"
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_vnet1Nsg_name'), '/Cleanuptool-Deny-103')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet1Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "*",
+                "sourcePortRange": "*",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Deny",
+                "priority": 103,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [
+                    "3389",
+                    "1433"
+                ],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": [],
+                "destinationPortRange": "[parameters('securityRules_Cleanuptool_Deny_103_destinationPortRange')]"
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_vnet2Nsg_name'), '/Cleanuptool-Deny-103')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet2Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Deny",
+                "priority": 103,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [
+                    "3389"
+                ],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": [],
+                "destinationPortRange": "[parameters('securityRules_Cleanuptool_Deny_103_destinationPortRange_1')]"
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_vnet1Nsg_name'), '/default-allow-rdp')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet1Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "TCP",
+                "sourcePortRange": "*",
+                "destinationPortRange": "3389",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 1006,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_vnet1Nsg_name'), '/default-allow-sql')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet1Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "*",
+                "sourcePortRange": "*",
+                "destinationPortRange": "1433",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 1600,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_VMhc_nsg_name'), '/HTTP')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_VMhc_nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "TCP",
+                "sourcePortRange": "*",
+                "destinationPortRange": "80",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 1000,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_vnet2Nsg_name'), '/HTTP')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet2Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "*",
+                "sourcePortRange": "*",
+                "destinationPortRange": "80",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 1004,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_VMhc_nsg_name'), '/HTTPS')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_VMhc_nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "TCP",
+                "sourcePortRange": "*",
+                "destinationPortRange": "443",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 1001,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_vnet2Nsg_name'), '/HTTPS')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet2Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "*",
+                "sourcePortRange": "*",
+                "destinationPortRange": "443",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 1005,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_VMhc_nsg_name'), '/RDP')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_VMhc_nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "TCP",
+                "sourcePortRange": "*",
+                "destinationPortRange": "3389",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 1003,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_vnet2Nsg_name'), '/RDP')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet2Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "TCP",
+                "sourcePortRange": "*",
+                "destinationPortRange": "3389",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 1007,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_VMhc_nsg_name'), '/SecurityCenter-JITRule_-1049672392_FCFA3C48225F40C1B62B2800A61926C2')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_VMhc_nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "description": "ASC JIT Network Access rule for policy 'default' of VM 'VMhc'.",
+                "protocol": "*",
+                "sourcePortRange": "*",
+                "destinationPortRange": "3389",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "172.30.0.5",
+                "access": "Deny",
+                "priority": 1002,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_vnet1Nsg_name'), '/SecurityCenter-JITRule_-1049672392_FCFA3C48225F40C1B62B2800A61926C2')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet1Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "description": "ASC JIT Network Access rule for policy 'default' of VM 'VMhc'.",
+                "protocol": "*",
+                "sourcePortRange": "*",
+                "destinationPortRange": "3389",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "172.30.0.5",
+                "access": "Deny",
+                "priority": 1004,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_vnet1Nsg_name'), '/SecurityCenter-JITRule_-1565665146_9F66C980492E486997C2C001DE700854')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet1Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "description": "ASC JIT Network Access rule for policy 'default' of VM 'vmSQL'.",
+                "protocol": "*",
+                "sourcePortRange": "*",
+                "destinationPortRange": "3389",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "172.30.0.4",
+                "access": "Deny",
+                "priority": 1005,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('networkSecurityGroups_vnet2Nsg_name'), '/SecurityCenter-JITRule_474634106_4F446B1BAFFA462AB5D3797D5CA80A51')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet2Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "description": "ASC JIT Network Access rule for policy 'default' of VM 'vmDNS'.",
+                "protocol": "*",
+                "sourcePortRange": "*",
+                "destinationPortRange": "3389",
+                "sourceAddressPrefix": "*",
+                "destinationAddressPrefix": "172.31.0.4",
+                "access": "Deny",
+                "priority": 1006,
+                "direction": "Inbound",
+                "sourcePortRanges": [],
+                "destinationPortRanges": [],
+                "sourceAddressPrefixes": [],
+                "destinationAddressPrefixes": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('virtualNetworks_Vnet1_name')]",
+            "location": "westus",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet1Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "1724e492-f949-4f3e-b328-bc83e729aa93",
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "172.30.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "GatewaySubnet",
+                        "etag": "W/\"e39f71db-dd2c-4a93-baa1-bd8c728c6698\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "addressPrefix": "172.30.1.0/24",
+                            "delegations": []
+                        }
+                    },
+                    {
+                        "name": "sub1",
+                        "etag": "W/\"e39f71db-dd2c-4a93-baa1-bd8c728c6698\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "addressPrefix": "172.30.0.0/24",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet1Nsg_name'))]"
+                            },
+                            "serviceEndpoints": [
+                                {
+                                    "provisioningState": "Succeeded",
+                                    "service": "Microsoft.Storage",
+                                    "locations": [
+                                        "westus",
+                                        "eastus"
+                                    ]
+                                }
+                            ],
+                            "delegations": []
+                        }
+                    }
+                ],
+                "virtualNetworkPeerings": [],
+                "enableDdosProtection": false,
+                "enableVmProtection": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('virtualNetworks_Vnet2_name')]",
+            "location": "westus",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet2Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "e6824d4a-72cf-4e94-8fc2-0df910ca9818",
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "172.31.0.0/16"
+                    ]
+                },
+                "dhcpOptions": {
+                    "dnsServers": [
+                        "172.31.0.4"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "GatewaySubnet",
+                        "etag": "W/\"3869023d-1839-4fa6-9c5b-38b56fa4078e\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "addressPrefix": "172.31.1.0/24",
+                            "serviceEndpoints": [],
+                            "delegations": []
+                        }
+                    },
+                    {
+                        "name": "sub1",
+                        "etag": "W/\"3869023d-1839-4fa6-9c5b-38b56fa4078e\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "addressPrefix": "172.31.0.0/24",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet2Nsg_name'))]"
+                            },
+                            "serviceEndpoints": [
+                                {
+                                    "provisioningState": "Succeeded",
+                                    "service": "Microsoft.Storage",
+                                    "locations": [
+                                        "westus",
+                                        "eastus"
+                                    ]
+                                }
+                            ],
+                            "delegations": []
+                        }
+                    }
+                ],
+                "virtualNetworkPeerings": [],
+                "enableDdosProtection": false,
+                "enableVmProtection": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('virtualNetworks_Vnet1_name'), '/GatewaySubnet')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_Vnet1_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "addressPrefix": "172.30.1.0/24",
+                "delegations": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('virtualNetworks_Vnet2_name'), '/GatewaySubnet')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_Vnet2_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "addressPrefix": "172.31.1.0/24",
+                "serviceEndpoints": [],
+                "delegations": []
+            }
+        },
+        {
+            "type": "Microsoft.Relay/namespaces/AuthorizationRules",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('namespaces_L300SBus_name'), '/RootManageSharedAccessKey')]",
+            "location": "West US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Relay/namespaces', parameters('namespaces_L300SBus_name'))]"
+            ],
+            "properties": {
+                "rights": [
+                    "Listen",
+                    "Manage",
+                    "Send"
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Relay/namespaces/hybridConnections",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('namespaces_L300SBus_name'), '/vmhc2sql')]",
+            "location": "West US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Relay/namespaces', parameters('namespaces_L300SBus_name'))]"
+            ],
+            "properties": {
+                "createdAt": "2019-05-01T00:55:18.0221371Z",
+                "updatedAt": "2019-05-01T00:55:26.4515498Z",
+                "requiresClientAuthorization": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2016-08-01",
+            "name": "[parameters('sites_L300TestApp_name')]",
+            "location": "West US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_L300ASP_name'))]"
+            ],
+            "kind": "app",
+            "properties": {
+                "enabled": true,
+                "hostNameSslStates": [
+                    {
+                        "name": "l300testapp.azurewebsites.net",
+                        "sslState": "Disabled",
+                        "hostType": "Standard"
+                    },
+                    {
+                        "name": "l300testapp.scm.azurewebsites.net",
+                        "sslState": "Disabled",
+                        "hostType": "Repository"
+                    }
+                ],
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_L300ASP_name'))]",
+                "reserved": false,
+                "scmSiteAlsoStopped": false,
+                "clientAffinityEnabled": true,
+                "clientCertEnabled": false,
+                "hostNamesDisabled": false,
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "httpsOnly": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/config",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(parameters('sites_L300TestApp_name'), '/web')]",
+            "location": "West US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_L300TestApp_name'))]"
+            ],
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php",
+                    "hostingstart.html"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "phpVersion": "5.6",
+                "pythonVersion": "",
+                "nodeVersion": "",
+                "linuxFxVersion": "",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "remoteDebuggingVersion": "VS2017",
+                "httpLoggingEnabled": false,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "$L300TestApp",
+                "scmType": "None",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": false,
+                "appCommandLine": "",
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": false,
+                        "virtualDirectories": null
+                    }
+                ],
+                "winAuthAdminState": 0,
+                "winAuthTenantState": 0,
+                "customAppPoolIdentityAdminState": false,
+                "customAppPoolIdentityTenantState": false,
+                "loadBalancing": "LeastRequests",
+                "routingRules": [],
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "autoHealEnabled": false,
+                "vnetName": "",
+                "siteAuthEnabled": false,
+                "siteAuthSettings": {
+                    "enabled": null,
+                    "unauthenticatedClientAction": null,
+                    "tokenStoreEnabled": null,
+                    "allowedExternalRedirectUrls": null,
+                    "defaultProvider": null,
+                    "clientId": null,
+                    "clientSecret": null,
+                    "clientSecretCertificateThumbprint": null,
+                    "issuer": null,
+                    "allowedAudiences": null,
+                    "additionalLoginParams": null,
+                    "isAadAutoProvisioned": false,
+                    "googleClientId": null,
+                    "googleClientSecret": null,
+                    "googleOAuthScopes": null,
+                    "facebookAppId": null,
+                    "facebookAppSecret": null,
+                    "facebookOAuthScopes": null,
+                    "twitterConsumerKey": null,
+                    "twitterConsumerSecret": null,
+                    "microsoftAccountClientId": null,
+                    "microsoftAccountClientSecret": null,
+                    "microsoftAccountOAuthScopes": null
+                },
+                "localMySqlEnabled": false,
+                "http20Enabled": false,
+                "minTlsVersion": "1.2",
+                "ftpsState": "AllAllowed",
+                "reservedInstanceCount": 0
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/hostNameBindings",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(parameters('sites_L300TestApp_name'), '/', parameters('sites_L300TestApp_name'), '.azurewebsites.net')]",
+            "location": "West US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_L300TestApp_name'))]"
+            ],
+            "properties": {
+                "siteName": "L300TestApp",
+                "hostNameType": "Verified"
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2018-10-01",
+            "name": "[parameters('virtualMachines_vmDNS_name')]",
+            "location": "westus",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/StorageAccounts', parameters('storageAccounts_l300disks_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_vmdns253_name'))]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_B2ms"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2016-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Windows",
+                        "name": "[parameters('virtualMachines_vmDNS_name')]",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('https://', parameters('storageAccounts_l300disks_name'), concat('.blob.core.windows.net/vhds/', parameters('virtualMachines_vmDNS_name'), '20190429155046.vhd'))]"
+                        },
+                        "caching": "ReadWrite",
+                        "diskSizeGB": 127
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_vmDNS_name')]",
+                    "adminUsername": "L300admin",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_vmdns253_name'))]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2018-10-01",
+            "name": "[parameters('virtualMachines_VMhc_name')]",
+            "location": "westus",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/StorageAccounts', parameters('storageAccounts_l300disks_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_vmhc523_name'))]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_B2s"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2016-Datacenter-smalldisk",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Windows",
+                        "name": "[parameters('virtualMachines_VMhc_name')]",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('https://', parameters('storageAccounts_l300disks_name'), concat('.blob.core.windows.net/vhds/', parameters('virtualMachines_VMhc_name'), '20190416175232.vhd'))]"
+                        },
+                        "caching": "ReadWrite",
+                        "diskSizeGB": 30
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_VMhc_name')]",
+                    "adminUsername": "L300admin",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_vmhc523_name'))]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2018-10-01",
+            "name": "[parameters('virtualMachines_vmSQL_name')]",
+            "location": "westus",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/StorageAccounts', parameters('storageAccounts_l300disks_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_vmsql225_name'))]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_B2ms"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftSQLServer",
+                        "offer": "SQL2017-WS2016",
+                        "sku": "SQLDEV",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Windows",
+                        "name": "[parameters('virtualMachines_vmSQL_name')]",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('https://', parameters('storageAccounts_l300disks_name'), concat('.blob.core.windows.net/vhds/', parameters('virtualMachines_vmSQL_name'), '20190430154058.vhd'))]"
+                        },
+                        "caching": "ReadWrite",
+                        "diskSizeGB": 127
+                    },
+                    "dataDisks": [
+                        {
+                            "lun": 0,
+                            "name": "[concat(parameters('virtualMachines_vmSQL_name'), '-disk-0')]",
+                            "createOption": "Empty",
+                            "vhd": {
+                                "uri": "[concat('https://', parameters('storageAccounts_l300disks_name'), concat('.blob.core.windows.net/vhds/', parameters('virtualMachines_vmSQL_name'), '-disk-0-20190430154058.vhd'))]"
+                            },
+                            "caching": "ReadOnly",
+                            "writeAcceleratorEnabled": false,
+                            "diskSizeGB": 1023
+                        }
+                    ]
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_vmSQL_name')]",
+                    "adminUsername": "L300admin",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_vmsql225_name'))]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworkGateways",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('virtualNetworkGateways_GW1_name')]",
+            "location": "westus",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_GW1_IP_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_Vnet1_name'), 'GatewaySubnet')]"
+            ],
+            "properties": {
+                "resourceGuid": "e654ca46-5efc-472e-b285-ca3549f686fa",
+                "ipConfigurations": [
+                    {
+                        "name": "default",
+                        "etag": "W/\"738280ed-02dd-48b8-9dbc-c01905501376\"",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_GW1_IP_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_Vnet1_name'), 'GatewaySubnet')]"
+                            }
+                        }
+                    }
+                ],
+                "sku": {
+                    "name": "VpnGw1",
+                    "tier": "VpnGw1",
+                    "capacity": 2
+                },
+                "gatewayType": "Vpn",
+                "vpnType": "RouteBased",
+                "enableBgp": false,
+                "activeActive": false,
+                "vpnClientConfiguration": {
+                    "vpnClientProtocols": [
+                        "SSTP",
+                        "IkeV2"
+                    ],
+                    "vpnClientRootCertificates": [],
+                    "vpnClientRevokedCertificates": [],
+                    "vpnClientIpsecPolicies": []
+                },
+                "bgpSettings": {
+                    "asn": 65515,
+                    "bgpPeeringAddress": "172.30.1.254",
+                    "peerWeight": 0
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworkGateways",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('virtualNetworkGateways_GW2_name')]",
+            "location": "westus",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_GW2_IP_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_Vnet2_name'), 'GatewaySubnet')]"
+            ],
+            "properties": {
+                "resourceGuid": "a000317c-9a9f-4086-ace9-0029257e08de",
+                "ipConfigurations": [
+                    {
+                        "name": "default",
+                        "etag": "W/\"ef60b549-fabd-4a98-a0d3-36e344c8fd75\"",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_GW2_IP_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_Vnet2_name'), 'GatewaySubnet')]"
+                            }
+                        }
+                    }
+                ],
+                "sku": {
+                    "name": "VpnGw1",
+                    "tier": "VpnGw1",
+                    "capacity": 2
+                },
+                "gatewayType": "Vpn",
+                "vpnType": "RouteBased",
+                "enableBgp": false,
+                "activeActive": false,
+                "vpnClientConfiguration": {
+                    "vpnClientAddressPool": {
+                        "addressPrefixes": [
+                            "192.168.30.0/27"
+                        ]
+                    },
+                    "vpnClientProtocols": [
+                        "SSTP"
+                    ],
+                    "vpnClientRootCertificates": [
+                        {
+                            "name": "AppServiceCertificate.cer",
+                            "etag": "W/\"ef60b549-fabd-4a98-a0d3-36e344c8fd75\"",
+                            "properties": {
+                                "publicCertData": "MIIDIDCCAgygAwIBAgIQukf4xfWi15NEaoF9BBxDITAJBgUrDgMCHQUAMCMxITAfBgNVBAMTGFdlYnNpdGVzQ2VydGlmaWNhdGVWbmV0MjAeFw0xOTA0MTgwMjEyNThaFw0zOTEyMzEyMzU5NTlaMCMxITAfBgNVBAMTGFdlYnNpdGVzQ2VydGlmaWNhdGVWbmV0MjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKqdP/Ttp5XFu6ao+l4FxnPbsbOFN1uuW+I2WoRBJ6gxBLLwnUIQHCRBerGSSYRvgkfFzqYiG3BXOmBR4uQfhzLSErbRb429xv0Nj71DqxAKsw+nypiWYkbxMFNof9uHKw4ZljxkLVeMzQv0MG9NZc8lZv6o6NGmOm62It/DwSb5em/71Pzkq5vxCmyg4oGHpl58DKPK+4UcCUfKrUC0v1OAEeT/axQ/JYrgFUeU3OuM6nmNykic+oqy9U/hYlIYEwe5WGdYY5lgfEdQbdcZZF3E38cQhGtdBYxt8prs3FR/3ZUj0T114+IcsEtPhZFonLLkU2c4WKgJ5lfijOp6K1cCAwEAAaNYMFYwVAYDVR0BBE0wS4AQCBan/0pdaUk0IzDUnzPHzaElMCMxITAfBgNVBAMTGFdlYnNpdGVzQ2VydGlmaWNhdGVWbmV0MoIQukf4xfWi15NEaoF9BBxDITAJBgUrDgMCHQUAA4IBAQBjiDv735wBR+jgc5gkmbJwAxXInU6T3hwIolaepXL5KYtbYQsB4SWHafnnBTvn/L7bnh2dyEuHnfIA+FAM4XrIdd6qm4VS7tMpoNnIZYkvJ5QUsM+nfwqaC7QwLo+6+ox5UDVB2vHyakX7PAVM4HiJILOpznY05DitTyUP5M72hLHMRWWKghJ5j5VMzeYDpW8SLHzNfBf7iF8Ax+zxRgTqLGxV9X6xFUwztqs3umW0eYAUrsLIi+BAmSrL27RAJdjhA3JP36rPy/fesNArnJS1oYgRuj3TFwGwPiuw4CQGOgp0IBPpuxAD2rKW1VcuxYHyo2z/V8mPu2vyeGO1s54R"
+                            }
+                        }
+                    ],
+                    "vpnClientRevokedCertificates": [],
+                    "vpnClientIpsecPolicies": []
+                },
+                "bgpSettings": {
+                    "asn": 65515,
+                    "bgpPeeringAddress": "172.31.1.254",
+                    "peerWeight": 0
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('virtualNetworks_Vnet1_name'), '/sub1')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_Vnet1_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet1Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "addressPrefix": "172.30.0.0/24",
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet1Nsg_name'))]"
+                },
+                "serviceEndpoints": [
+                    {
+                        "provisioningState": "Succeeded",
+                        "service": "Microsoft.Storage",
+                        "locations": [
+                            "westus",
+                            "eastus"
+                        ]
+                    }
+                ],
+                "delegations": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2018-12-01",
+            "name": "[concat(parameters('virtualNetworks_Vnet2_name'), '/sub1')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_Vnet2_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet2Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "addressPrefix": "172.31.0.0/24",
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet2Nsg_name'))]"
+                },
+                "serviceEndpoints": [
+                    {
+                        "provisioningState": "Succeeded",
+                        "service": "Microsoft.Storage",
+                        "locations": [
+                            "westus",
+                            "eastus"
+                        ]
+                    }
+                ],
+                "delegations": []
+            }
+        },
+        {
+            "type": "Microsoft.Relay/namespaces/hybridConnections/authorizationRules",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('namespaces_L300SBus_name'), '/vmhc2sql/defaultListener')]",
+            "location": "West US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Relay/namespaces/hybridConnections', parameters('namespaces_L300SBus_name'), 'vmhc2sql')]",
+                "[resourceId('Microsoft.Relay/namespaces', parameters('namespaces_L300SBus_name'))]"
+            ],
+            "properties": {
+                "rights": [
+                    "Listen"
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Relay/namespaces/hybridConnections/authorizationRules",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('namespaces_L300SBus_name'), '/vmhc2sql/defaultSender')]",
+            "location": "West US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Relay/namespaces/hybridConnections', parameters('namespaces_L300SBus_name'), 'vmhc2sql')]",
+                "[resourceId('Microsoft.Relay/namespaces', parameters('namespaces_L300SBus_name'))]"
+            ],
+            "properties": {
+                "rights": [
+                    "Send"
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('networkInterfaces_vmdns253_name')]",
+            "location": "westus",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_vm2dns_ip_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_Vnet2_name'), 'sub1')]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet2Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "0635b5e4-25b8-4f73-8fc0-682b3a21ac76",
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "etag": "W/\"c324a79c-4976-4c8e-bf5b-836550eefb15\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "privateIPAddress": "172.31.0.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_vm2dns_ip_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_Vnet2_name'), 'sub1')]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": [],
+                    "appliedDnsServers": [],
+                    "internalDomainNameSuffix": "jjgyfzwpokke3d4cbx2rbsuyda.dx.internal.cloudapp.net"
+                },
+                "macAddress": "00-0D-3A-32-39-E8",
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet2Nsg_name'))]"
+                },
+                "primary": true,
+                "tapConfigurations": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('networkInterfaces_vmhc523_name')]",
+            "location": "westus",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_VMhc_ip_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_Vnet1_name'), 'sub1')]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_VMhc_nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "80f44de8-b787-473a-9ea3-18b6109a2b7d",
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "etag": "W/\"081b1eda-07be-4429-afc0-ce6003b9b333\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "privateIPAddress": "172.30.0.5",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_VMhc_ip_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_Vnet1_name'), 'sub1')]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": [],
+                    "appliedDnsServers": [],
+                    "internalDomainNameSuffix": "slscif0j5e5e5mzixsb4oknksd.dx.internal.cloudapp.net"
+                },
+                "macAddress": "00-0D-3A-3B-00-45",
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_VMhc_nsg_name'))]"
+                },
+                "primary": true,
+                "tapConfigurations": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2018-12-01",
+            "name": "[parameters('networkInterfaces_vmsql225_name')]",
+            "location": "westus",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_vmSQL_ip_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_Vnet1_name'), 'sub1')]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet1Nsg_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "bf2f4e58-b19e-490b-b855-5c898a5833de",
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "etag": "W/\"499ba2e3-a0d9-4726-86c9-ba33ea3bc285\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "privateIPAddress": "172.30.0.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_vmSQL_ip_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_Vnet1_name'), 'sub1')]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": [],
+                    "appliedDnsServers": [],
+                    "internalDomainNameSuffix": "slscif0j5e5e5mzixsb4oknksd.dx.internal.cloudapp.net"
+                },
+                "macAddress": "00-0D-3A-37-82-99",
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_vnet1Nsg_name'))]"
+                },
+                "primary": true,
+                "tapConfigurations": []
+            }
+        }
+    ]
+}
