@@ -23,3 +23,8 @@ https://serverfault.com/questions/768562/output-ipaddress-of-vm-using-arm-templa
 VPN Powershell integration
 https://docs.microsoft.com/en-us/azure/app-service/web-sites-integrate-with-vnet#powershell-automation
 https://gallery.technet.microsoft.com/scriptcenter/Connect-an-app-in-Azure-ab7527e3
+
+
+
+
+https://github.com/Welasco/AzureTemplate/blob/master/azuredeploy.json
