@@ -917,26 +917,39 @@
                     "dependsOn": [
                         "[concat('Microsoft.Web/sites', variables('WEBAPP-name'),copyIndex(1))]"
                     ],
-                        "properties": {
+                    "properties": {
                         "RepoUrl": "[variables('WEBAPP-repo-URL')]",
                         "branch": "[variables('WEBAPP-repo-branch')]",
                         "IsManualIntegration": true
                     }
-                }
+                },
+                {
+                    "type": "config",
+                    "name": "web",
+                    "apiVersion": "2016-08-01",
+                    "location": "[variables('_location')]",
+                    "scale": null,
+                    "properties": {
+                        "alwaysOn": true
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.Web/sites', variables('WEBAPP-name'),copyIndex(1))]"
+                    ]
+                },
+                {
+                    "type": "config",
+                    "name": "appsettings",
+                    "apiVersion": "2016-08-01",
+                    "location": "[variables('_location')]",
+                    "scale": null,
+                    "properties": {
+                        "WEBSITE_DNS_SERVER": "[variables('VMDNS-PrivateIP')]"
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.Web/sites', variables('WEBAPP-name'),copyIndex(1))]"
+                    ]
+                }                
               ]            
-        },
-        {
-              "type": "Microsoft.Web/sites/config",
-              "name": "[concat(variables('WEBAPP-name'),copyIndex(1), '/', 'web')]",
-              "apiVersion": "2016-08-01",
-              "location": "[variables('_location')]",
-              "scale": null,
-              "properties": {
-                  "alwaysOn": true
-              },
-              "dependsOn": [
-                  "[concat('Microsoft.Web/sites', variables('WEBAPP-name'),copyIndex(1))]"
-              ]
         },
         
         {
