@@ -11,7 +11,9 @@
     },
     "variables": {
         "_location": "[resourceGroup().location]",
-        "OnPremVNet-name": "OnPremVNet",
+        "rsgUniqueStr": "[concat(substring(uniqueString(resourceGroup().id), 0, 4),'-')]",
+
+        "OnPremVNet-name": "[concat(variables('rsgUniqueStr'),'OnPremVNet')]",
         "OnPremVNet-addressPrefix": "172.30.0.0/16",
         "OnPremVNet-stdsubnet-name": "StdSubnet",
         "OnPremVNet-stdsubnet-subnetPrefix": "172.30.0.0/24",
@@ -23,14 +25,14 @@
         "OnPremVNet-gwsubnet-name": "GatewaySubnet",
         "OnPremVNet-gwsubnet-subnetPrefix": "172.30.2.0/24",
         "OnPremVNet-gwsubnet-subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('OnPremVNet-name'), variables('OnPremVNet-gwsubnet-name'))]",        
-        "OnPremVNet-VPNGW-name": "VPNGW2",
-        "OnPremVNet-VPNGW-publicIPName": "VPNGW2-PublicIP",
+        "OnPremVNet-VPNGW-name": "[concat(variables('rsgUniqueStr'),'VPNGW2')]",
+        "OnPremVNet-VPNGW-publicIPName": "[concat(variables('rsgUniqueStr'),'VPNGW2-PubIP')]",
         "OnPremVNet-VPNGW-SKU": "VpnGw1",
-        "OnPremVNet-VPNGW-localNetworkGateway-Name": "OnPremVnet-Local-VPNGW1",
-        "OnPremVNet-VPNGW-connection-name": "OnPremVnet-VpnGw2-to-CloudVNet-VpnGw1",
+        "OnPremVNet-VPNGW-localNetworkGateway-Name": "[concat(variables('rsgUniqueStr'),'OnPremVnet-Local-VPNGW1')]",
+        "OnPremVNet-VPNGW-connection-name": "[concat(variables('rsgUniqueStr'),'OnPremVnet-VpnGw2-to-CloudVNet-VpnGw1')]",
         "OnPremVNet-VPNGW-connection-sharedKey": "123abc",
 
-        "CloudVNet-name": "CloudVNet",
+        "CloudVNet-name": "[concat(variables('rsgUniqueStr'),'CloudVNet')]",
         "CloudVNet-addressPrefix": "172.31.0.0/16",
         "CloudVNet-subnet-name": "DefaultSubnet",
         "CloudVNet-subnet-subnetPrefix": "172.31.0.0/24",
@@ -39,55 +41,87 @@
         "CloudVNet-gwsubnet-name": "GatewaySubnet",
         "CloudVNet-gwsubnet-subnetPrefix": "172.31.2.0/24",
         "CloudVNet-gwsubnet-subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('CloudVNet-name'), variables('CloudVNet-gwsubnet-name'))]",          
-        "CloudVNet-VPNGW-name": "VPNGW1",
-        "CloudVNet-VPNGW-publicIPName": "VPNGW1-PublicIP",
+        "CloudVNet-VPNGW-name": "[concat(variables('rsgUniqueStr'),'VPNGW1')]",
+        "CloudVNet-VPNGW-publicIPName": "[concat(variables('rsgUniqueStr'),'VPNGW1-PublicIP')]",
         "CloudVNet-VPNGW-SKU": "VpnGw1",      
         "CloudVNet-VPNGW-vpnClientAddressPoolPrefix": "10.30.30.0/24",
-        "CloudVNet-VPNGW-localNetworkGateway-Name": "CloudVNet-Local-VPNGW2",
-        "CloudVNet-VPNGW-connection-name": "CloudVNet-VpnGw1-to-OnPremVnet-VpnGw2",
+        "CloudVNet-VPNGW-localNetworkGateway-Name": "[concat(variables('rsgUniqueStr'),'CloudVNet-Local-VPNGW2')]",
+        "CloudVNet-VPNGW-connection-name": "[concat(variables('rsgUniqueStr'),'CloudVNet-VpnGw1-to-OnPremVnet-VpnGw2')]",
         "CloudVNet-VPNGW-connection-sharedKey": "123abc",  
 
-        "VMSQL-name": "VMSQL",
+        "VMSQL-name": "[concat(variables('rsgUniqueStr'),'VMSQL')]",
         "VMSQL-adminUsername": "L300ConfigAdmin",
         "VMSQL-adminPassword": "No_P@ssw0rd!",
-        "VMSQL-nicName": "VMSQL-Nic",    
+        "VMSQL-nicName": "[concat(variables('rsgUniqueStr'),'VMSQL-Nic')]",    
         "VMSQL-PrivateIP": "172.30.0.4",  
-        "VMSQL-PublicIP-Name": "VMSQL-Pub1",
+        "VMSQL-PublicIP-Name": "[concat(variables('rsgUniqueStr'),'VMSQL-Pub1')]",
         "VMSQL-scriptFolder": ".",
         "VMSQL-scriptFileName": "CSE.ps1",      
         "VMSQL-scriptParameters": "",
-        "VMSQL-dnsName": "[toLower(concat(variables('VMSQL-name'),'-',toLower(uniqueString(resourceGroup().id))))]",
+        "VMSQL-dnsName": "[toLower(variables('VMSQL-name'))]",
+        "VMSQL-SQLSettingsName": "[variables('VMSQL-name')]",
+        "VMSQL-vmsize": "Standard_B2ms",
         
-        "VMDNS-name": "VMDNS",
+        "VMDNS-name": "[concat(variables('rsgUniqueStr'),'VMDNS')]",
         "VMDNS-adminUsername": "L300ConfigAdmin",
         "VMDNS-adminPassword": "No_P@ssw0rd!",
-        "VMDNS-nicName": "VMDNS-Nic",
+        "VMDNS-nicName": "[concat(variables('rsgUniqueStr'),'VMDNS-Nic')]",
         "VMDNS-PrivateIP": "172.31.0.4",
-        "VMDNS-PublicIP-Name": "VMDNS-Pub1",  
+        "VMDNS-PublicIP-Name": "[concat(variables('rsgUniqueStr'),'VMDNS-Pub1')]",  
         "VMDNS-scriptFolder": ".",
-        "VMDNS-scriptFileName": "CSE.ps1",   
-        "VMDNS-scriptParameters": "",
-        "VMDNS-dnsName": "[toLower(concat(variables('VMDNS-name'),'-',toLower(uniqueString(resourceGroup().id))))]",
+        "VMDNS-scriptFileName": "VMDNS.ps1",   
+        "VMDNS-scriptParameters": "[concat('-UsersAmount ', parameters('StudantsAmount'), '-VMSQLNAME ', variables('VMSQL-name'),'-VMSQLIP ', variables('VMSQL-PrivateIP'), '-VMSTDNAME ', variables('VMSTD-name'),'-VMSTDIP ', variables('VMSTD-PrivateIP'),'-VMSTDIPINITNUM ', variables('VMSTD-PrivateIPInitNumb'))]",
+        "VMDNS-dnsName": "[toLower(variables('VMDNS-name'))]",
+        "VMDNS-vmsize": "Standard_B2ms",
 
-        "VMSTD-name": "VMSTD-",
+        "VMSTD-name": "[concat(variables('rsgUniqueStr'),'VMSTD-')]",
         "VMSTD-Amount": "[parameters('StudantsAmount')]",
         "VMSTD-Amount-math": "[add(div(variables('VMSTD-Amount'), 2), 1)]",
         "VMSTD-adminUsername": "AdminStd",
         "VMSTD-adminPassword": "No_P@ssw0rd!",
-        "VMSTD-nicName": "VMSTD-Nic-",
+        "VMSTD-nicName": "[concat(variables('rsgUniqueStr'),'VMSTD-Nic-')]",
         "VMSTD-PrivateIP": "172.30.0.",
-        "VMSTD-PublicIP-Name": "VMSTD-Pub-",        
+        "VMSTD-PrivateIPInitNumb": "10",
+        "VMSTD-PublicIP-Name": "[concat(variables('rsgUniqueStr'),'VMSTD-Pub-')]",        
         "VMSTD-dnsName": "[toLower(variables('VMSTD-name'))]",
         "VMSTD-scriptFolder": ".",
-        "VMSTD-scriptFileName": "CSERDP.ps1",  
-        "VMSTD-scriptParameters": "",       
+        "VMSTD-scriptFileName": "VMSQL.ps1",  
+        "VMSTD-scriptParameters": "[concat('-UsersAmount ', parameters('StudantsAmount'))]",
+        "VMSTD-SQLSettingsName": "[variables('VMSTD-name')]",
+        "VMSTD-vmsize": "Standard_B2ms",
+
         "AzureDNSServerIP": "168.63.129.16",
 
-        "WEBFARM-name": "WEBFARM-",
-        "WEBAPP-name": "WEBAPPSTD-",
+        "WEBFARM-name": "[concat(variables('rsgUniqueStr'),'WEBFARM-')]",
+        "WEBFARM-amount": "[parameters('StudantsAmount')]",
+        "WEBFARM-Amount-math": "[webserversamountindex.wevserversamount(variables('WEBFARM-amount'))]",
+        "WEBAPP-amount": "[parameters('StudantsAmount')]",
+        "WEBAPP-name": "[concat(variables('rsgUniqueStr'),'WEBAPPSTD-')]",
+        "WEBAPP-config-name": "[concat(variables('rsgUniqueStr'),'WEBAPPSTD-Config-')]",
+        "WEBAPP-repo-URL": "https://github.com/Welasco/L300TestApp.git",
+        "WEBAPP-repo-branch": "master",
 
-        "SERVICEBUS-name": "[concat('servicebusl300',toLower(uniqueString(resourceGroup().id)))]"
+        "SERVICEBUS-name": "[concat(variables('rsgUniqueStr'),'svcbusl300')]"
     },
+    "functions": [
+        {
+            "namespace": "webserversamountindex",
+            "members": {
+                "wevserversamount": {
+                    "parameters": [
+                        {
+                            "name": "stdsamount",
+                            "type": "int"
+                        }
+                    ],
+                    "output": {
+                        "type": "int",
+                        "value": "[if(equals(div(parameters('stdsamount'),4),0),1,if(greater(mod(parameters('stdsamount'),4),0),add(div(parameters('stdsamount'),4),1),if(equals(mod(parameters('stdsamount'),4),0),div(parameters('stdsamount'),4),0)))]"
+                    }
+                }
+            }
+        }
+    ],      
     "resources": [
         {
             "apiVersion": "2018-10-01",
@@ -125,7 +159,134 @@
                     }                              
                 ]
             }
-        },     
+        },  
+        {
+            "apiVersion": "2018-04-01",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[variables('OnPremVNet-name')]",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('OnPremVNet-stdsubnet-nsgname'))]"
+            ],              
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('OnPremVNet-addressPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('OnPremVNet-stdsubnet-name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('OnPremVNet-stdsubnet-subnetPrefix')]",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('OnPremVNet-stdsubnet-nsgname'))]"
+                            }                            
+                        }
+                    },
+                    {
+                        "name": "[variables('OnPremVNet-sqlsubnet-name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('OnPremVNet-sqlsubnet-subnetPrefix')]",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('OnPremVNet-stdsubnet-nsgname'))]"
+                            }                            
+                        }
+                    },
+                    {
+                        "name": "[variables('OnPremVNet-gwsubnet-name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('OnPremVNet-gwsubnet-subnetPrefix')]"                          
+                        }
+                    }                                     
+                ]
+            }
+        },          
+        {
+            "apiVersion": "2017-06-01",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[variables('OnPremVNet-VPNGW-publicIPName')]",
+            "location": "[variables('_location')]",
+            "properties": {
+                "publicIPAllocationMethod": "Static"
+            }
+        },
+        {
+            "apiVersion": "2018-07-01",
+            "type": "Microsoft.Network/virtualNetworkGateways",
+            "name": "[variables('OnPremVNet-VPNGW-name')]",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('OnPremVNet-VPNGW-publicIPName'))]",
+                "[concat('Microsoft.Network/virtualNetworks/', variables('OnPremVNet-name'))]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('OnPremVNet-gwsubnet-subnetRef')]"
+                            },
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('OnPremVNet-VPNGW-publicIPName'))]"
+                            }
+                        },
+                        "name": "vnetGatewayConfig"
+                    }
+                ],
+                "sku": {
+                    "name": "[variables('OnPremVNet-VPNGW-SKU')]",
+                    "tier": "[variables('OnPremVNet-VPNGW-SKU')]",
+                    "capacity": 1
+                },
+                "gatewayType": "Vpn",
+                "vpnType": "RouteBased",
+                "enableBgp": "false"
+            }
+        },  
+        {
+            "apiVersion": "2015-06-15",
+            "type": "Microsoft.Network/localNetworkGateways",
+            "name": "[variables('OnPremVNet-VPNGW-localNetworkGateway-Name')]",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', variables('CloudVNet-name'))]",
+                "[concat('Microsoft.Network/virtualNetworkGateways/', variables('CloudVNet-VPNGW-name'))]",
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('CloudVNet-VPNGW-publicIPName'))]"
+            ],            
+            "properties": {
+                "localNetworkAddressSpace": {
+                    "addressPrefixes": [
+                        "[variables('CloudVNet-addressPrefix')]",
+                        "[variables('CloudVNet-VPNGW-vpnClientAddressPoolPrefix')]"
+                    ]
+                },
+                "gatewayIpAddress": "[reference(resourceId('Microsoft.Network/publicIPAddresses',variables('CloudVNet-VPNGW-publicIPName'))).IpAddress]"
+            }
+        },  
+        {
+            "apiVersion": "2015-06-15",
+            "name": "[variables('OnPremVNet-VPNGW-connection-name')]",
+            "type": "Microsoft.Network/connections",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworkGateways/', variables('OnPremVNet-VPNGW-name'))]",
+                "[concat('Microsoft.Network/localNetworkGateways/', variables('OnPremVNet-VPNGW-localNetworkGateway-Name'))]"
+            ],
+            "properties": {
+                "virtualNetworkGateway1": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworkGateways', variables('OnPremVNet-VPNGW-name'))]"
+                },
+                "localNetworkGateway2": {
+                    "id": "[resourceId('Microsoft.Network/localNetworkGateways', variables('OnPremVNet-VPNGW-localNetworkGateway-Name'))]"
+                },
+                "connectionType": "IPsec",
+                "routingWeight": 10,
+                "sharedKey": "[variables('OnPremVNet-VPNGW-connection-sharedKey')]"
+            }
+        },    
+
         {
             "apiVersion": "2018-10-01",
             "type": "Microsoft.Network/networkSecurityGroups",
@@ -179,50 +340,11 @@
         {
             "apiVersion": "2018-04-01",
             "type": "Microsoft.Network/virtualNetworks",
-            "name": "[variables('OnPremVNet-name')]",
-            "location": "[variables('_location')]",
-            "dependsOn": [
-                "[concat('Microsoft.Network/networkSecurityGroups/', variables('OnPremVNet-stdsubnet-nsgname'))]"
-            ],              
-            "properties": {
-                "addressSpace": {
-                    "addressPrefixes": [
-                        "[variables('OnPremVNet-addressPrefix')]"
-                    ]
-                },
-                "subnets": [
-                    {
-                        "name": "[variables('OnPremVNet-stdsubnet-name')]",
-                        "properties": {
-                            "addressPrefix": "[variables('OnPremVNet-stdsubnet-subnetPrefix')]",
-                            "networkSecurityGroup": {
-                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('OnPremVNet-stdsubnet-nsgname'))]"
-                            }                            
-                        }
-                    },
-                    {
-                        "name": "[variables('OnPremVNet-sqlsubnet-name')]",
-                        "properties": {
-                            "addressPrefix": "[variables('OnPremVNet-sqlsubnet-subnetPrefix')]",
-                            "networkSecurityGroup": {
-                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('OnPremVNet-stdsubnet-nsgname'))]"
-                            }                            
-                        }
-                    },
-                    {
-                        "name": "[variables('OnPremVNet-gwsubnet-name')]",
-                        "properties": {
-                            "addressPrefix": "[variables('OnPremVNet-gwsubnet-subnetPrefix')]"                          
-                        }
-                    }                                     
-                ]
-            }
-        },        
-        {
-            "apiVersion": "2018-04-01",
-            "type": "Microsoft.Network/virtualNetworks",
             "name": "[variables('CloudVNet-name')]",
             "location": "[variables('_location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('CloudVNet-subnet-nsgname'))]"
+            ], 
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
@@ -256,55 +378,12 @@
         {
             "apiVersion": "2017-06-01",
             "type": "Microsoft.Network/publicIPAddresses",
-            "name": "[variables('OnPremVNet-VPNGW-publicIPName')]",
-            "location": "[variables('_location')]",
-            "properties": {
-                "publicIPAllocationMethod": "Dynamic"
-            }
-        },
-        {
-            "apiVersion": "2018-07-01",
-            "type": "Microsoft.Network/virtualNetworkGateways",
-            "name": "[variables('OnPremVNet-VPNGW-name')]",
-            "location": "[variables('_location')]",
-            "dependsOn": [
-                "[concat('Microsoft.Network/publicIPAddresses/', variables('OnPremVNet-VPNGW-publicIPName'))]",
-                "[concat('Microsoft.Network/virtualNetworks/', variables('OnPremVNet-name'))]"
-            ],
-            "properties": {
-                "ipConfigurations": [
-                    {
-                        "properties": {
-                            "privateIPAllocationMethod": "Dynamic",
-                            "subnet": {
-                                "id": "[variables('OnPremVNet-gwsubnet-subnetRef')]"
-                            },
-                            "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('OnPremVNet-VPNGW-publicIPName'))]"
-                            }
-                        },
-                        "name": "vnetGatewayConfig"
-                    }
-                ],
-                "sku": {
-                    "name": "[variables('OnPremVNet-VPNGW-SKU')]",
-                    "tier": "[variables('OnPremVNet-VPNGW-SKU')]",
-                    "capacity": 1
-                },
-                "gatewayType": "Vpn",
-                "vpnType": "RouteBased",
-                "enableBgp": "false"
-            }
-        },  
-        {
-            "apiVersion": "2017-06-01",
-            "type": "Microsoft.Network/publicIPAddresses",
             "name": "[variables('CloudVNet-VPNGW-publicIPName')]",
             "location": "[variables('_location')]",
             "properties": {
-                "publicIPAllocationMethod": "Dynamic"
+                "publicIPAllocationMethod": "Static"
             }
-        },          
+        },
         {
             "apiVersion": "2018-07-01",
             "type": "Microsoft.Network/virtualNetworkGateways",
@@ -346,57 +425,86 @@
                     "vpnClientProtocols": [
                         "SSTP"
                     ],
-                    "vpnClientRootCertificates": [
-                        {
-                            "name": "AppServiceCertificate.cer",
-                            "properties": {
-                                "publicCertData": "MIIDIDCCAgygAwIBAgIQukf4xfWi15NEaoF9BBxDITAJBgUrDgMCHQUAMCMxITAfBgNVBAMTGFdlYnNpdGVzQ2VydGlmaWNhdGVWbmV0MjAeFw0xOTA0MTgwMjEyNThaFw0zOTEyMzEyMzU5NTlaMCMxITAfBgNVBAMTGFdlYnNpdGVzQ2VydGlmaWNhdGVWbmV0MjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKqdP/Ttp5XFu6ao+l4FxnPbsbOFN1uuW+I2WoRBJ6gxBLLwnUIQHCRBerGSSYRvgkfFzqYiG3BXOmBR4uQfhzLSErbRb429xv0Nj71DqxAKsw+nypiWYkbxMFNof9uHKw4ZljxkLVeMzQv0MG9NZc8lZv6o6NGmOm62It/DwSb5em/71Pzkq5vxCmyg4oGHpl58DKPK+4UcCUfKrUC0v1OAEeT/axQ/JYrgFUeU3OuM6nmNykic+oqy9U/hYlIYEwe5WGdYY5lgfEdQbdcZZF3E38cQhGtdBYxt8prs3FR/3ZUj0T114+IcsEtPhZFonLLkU2c4WKgJ5lfijOp6K1cCAwEAAaNYMFYwVAYDVR0BBE0wS4AQCBan/0pdaUk0IzDUnzPHzaElMCMxITAfBgNVBAMTGFdlYnNpdGVzQ2VydGlmaWNhdGVWbmV0MoIQukf4xfWi15NEaoF9BBxDITAJBgUrDgMCHQUAA4IBAQBjiDv735wBR+jgc5gkmbJwAxXInU6T3hwIolaepXL5KYtbYQsB4SWHafnnBTvn/L7bnh2dyEuHnfIA+FAM4XrIdd6qm4VS7tMpoNnIZYkvJ5QUsM+nfwqaC7QwLo+6+ox5UDVB2vHyakX7PAVM4HiJILOpznY05DitTyUP5M72hLHMRWWKghJ5j5VMzeYDpW8SLHzNfBf7iF8Ax+zxRgTqLGxV9X6xFUwztqs3umW0eYAUrsLIi+BAmSrL27RAJdjhA3JP36rPy/fesNArnJS1oYgRuj3TFwGwPiuw4CQGOgp0IBPpuxAD2rKW1VcuxYHyo2z/V8mPu2vyeGO1s54R"
-                            }
-                        }
-                    ],
+                    "vpnClientRootCertificates": [],
                     "vpnClientRevokedCertificates": [],
                     "vpnClientIpsecPolicies": []
                 }              
             }
-        },          
+        },
+        {
+            "apiVersion": "2015-06-15",
+            "type": "Microsoft.Network/localNetworkGateways",
+            "name": "[variables('CloudVNet-VPNGW-localNetworkGateway-Name')]",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', variables('OnPremVNet-name'))]",
+                "[concat('Microsoft.Network/virtualNetworkGateways/', variables('OnPremVNet-VPNGW-name'))]",
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('OnPremVNet-VPNGW-publicIPName'))]"
+            ],            
+            "properties": {
+                "localNetworkAddressSpace": {
+                    "addressPrefixes": [
+                        "[variables('OnPremVNet-addressPrefix')]"
+                    ]
+                },
+                "gatewayIpAddress": "[reference(resourceId('Microsoft.Network/publicIPAddresses',variables('OnPremVNet-VPNGW-publicIPName'))).IpAddress]"
+            }
+        },
+        {
+            "apiVersion": "2015-06-15",
+            "name": "[variables('CloudVNet-VPNGW-connection-name')]",
+            "type": "Microsoft.Network/connections",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworkGateways/', variables('CloudVNet-VPNGW-name'))]",
+                "[concat('Microsoft.Network/localNetworkGateways/', variables('CloudVNet-VPNGW-localNetworkGateway-Name'))]"
+            ],
+            "properties": {
+                "virtualNetworkGateway1": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworkGateways', variables('CloudVNet-VPNGW-name'))]"
+                },
+                "localNetworkGateway2": {
+                    "id": "[resourceId('Microsoft.Network/localNetworkGateways', variables('CloudVNet-VPNGW-localNetworkGateway-Name'))]"
+                },
+                "connectionType": "IPsec",
+                "routingWeight": 10,
+                "sharedKey": "[variables('CloudVNet-VPNGW-connection-sharedKey')]"
+            }
+        },
+
         {
             "apiVersion": "2017-06-01",
             "type": "Microsoft.Network/publicIPAddresses",
-            "name": "[variables('publicIPAddressName')]",
+            "name": "[variables('VMSQL-PublicIP-Name')]",
             "location": "[variables('_location')]",
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
                 "dnsSettings": {
-                    "domainNameLabel": "[variables('dnsNameForPublicIP')]"
+                    "domainNameLabel": "[variables('VMSQL-dnsName')]"
                 }
             }
         },
         {
             "apiVersion": "2018-04-01",
             "type": "Microsoft.Network/networkInterfaces",
-            "name": "[variables('nicName')]",
+            "name": "[variables('VMSQL-nicName')]",
             "location": "[variables('_location')]",
             "dependsOn": [
-                "[variables('publicIPAddressName')]",
-                "[variables('virtualNetworkName')]"
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('VMSQL-PublicIP-Name'))]",
+                "[concat('Microsoft.Network/virtualNetworks/', variables('OnPremVNet-name'))]"
             ],
             "properties": {
-                "dnsSettings":{
-                    "dnsServers":[
-                        "[variables('AzureDNSServer')]"
-                    ]
-                },  
                 "ipConfigurations": [
                     {
                         "name": "ipconfig1",
                         "properties": {
                             "privateIPAllocationMethod": "static",
-                            "privateIPAddress": "[variables('DNSServerAddress')]",
+                            "privateIPAddress": "[variables('VMSQL-PrivateIP')]",
                             "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('VMSQL-PublicIP-Name'))]"
                             },
                             "subnet": {
-                                "id": "[variables('subnetRef')]"
+                                "id": "[variables('OnPremVNet-sqlsubnet-subnetRef')]"
                             }
                         }
                     }
@@ -406,35 +514,48 @@
         {
             "apiVersion": "2018-04-01",
             "type": "Microsoft.Compute/virtualMachines",
-            "name": "[variables('vmName')]",
+            "name": "[variables('VMSQL-name')]",
             "location": "[variables('_location')]",
             "dependsOn": [
-                "[variables('nicName')]"
+                "[concat('Microsoft.Network/networkInterfaces/', variables('VMSQL-nicName'))]"
             ],
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "Standard_D1_v2"
+                    "vmSize": "[variables('VMSQL-vmsize')]"
                 },
                 "osProfile": {
-                    "computerName": "[variables('vmName')]",
-                    "adminUsername": "[variables('adminUsername')]",
-                    "adminPassword": "[variables('adminPassword')]"
+                    "computerName": "[variables('VMSQL-name')]",
+                    "adminUsername": "[variables('VMSQL-adminUsername')]",
+                    "adminPassword": "[variables('VMSQL-adminPassword')]"
                 },
                 "storageProfile": {
                     "imageReference": {
-                        "publisher": "MicrosoftWindowsServer",
-                        "offer": "WindowsServer",
-                        "sku": "2016-Datacenter",
+                        "publisher": "MicrosoftSQLServer",
+                        "offer": "SQL2017-WS2016",
+                        "sku": "SQLDEV",
                         "version": "latest"
                     },
                     "osDisk": {
                         "createOption": "FromImage"
-                    }
+                    },
+                    "dataDisks": [
+                        {
+                            "lun": 0,
+                            "name": "[concat(variables('VMSQL-name'),'-DataDisk')]",
+                            "createOption": "Empty",
+                            "caching": "ReadOnly",
+                            "writeAcceleratorEnabled": false,
+                            "managedDisk": {
+                                "storageAccountType": "Premium_LRS"
+                            },
+                            "diskSizeGB": 1023
+                        }
+                    ]  
                 },
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('VMSQL-nicName'))]"
                         }
                     ]
                 }
@@ -446,7 +567,7 @@
                     "apiVersion": "2017-03-30",
                     "location": "[variables('_location')]",
                     "dependsOn": [
-                        "[variables('vmName')]"
+                        "[concat('Microsoft.Compute/virtualMachines/', variables('VMSQL-name'))]"
                     ],
                     "properties": {
                         "publisher": "Microsoft.Compute",
@@ -455,55 +576,188 @@
                         "autoUpgradeMinorVersion": true,
                         "settings": {
                             "fileUris": [
-                                "https://raw.githubusercontent.com/Welasco/ASELab/master/./CSE.ps1"
+                                "https://raw.githubusercontent.com/Welasco/L300Config/master/./VMSQL.ps1"
                             ],
-                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFolder'), '/', variables('scriptFileName'), ' ', variables('scriptParameters'))]"
+                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('VMSQL-scriptFolder'), '/', variables('VMSQL-scriptFileName'), ' ', variables('VMSQL-scriptParameters'))]"
                         }
                     }
                 }
             ]
         },
         {
+            "name": "[variables('VMSQL-SQLSettingsName')]",
+            "type": "Microsoft.SqlVirtualMachine/SqlVirtualMachines",
+            "apiVersion": "2017-03-01-preview",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', variables('VMSQL-name'))]"
+            ],
+            "properties": {
+                "virtualMachineResourceId": "[resourceId('Microsoft.Compute/virtualMachines', variables('VMSQL-name'))]",
+                "AutoPatchingSettings": {
+                    "Enable": false
+                },
+                "KeyVaultCredentialSettings": {
+                    "Enable": false
+                },
+                "ServerConfigurationsManagementSettings": {
+                    "SQLConnectivityUpdateSettings": {
+                        "ConnectivityType": "PUBLIC",
+                        "Port": 1433,
+                        "SQLAuthUpdateUserName": "[variables('VMSQL-adminUsername')]",
+                        "SQLAuthUpdatePassword": "[variables('VMSQL-adminPassword')]"
+                    },
+                    "SQLWorkloadTypeUpdateSettings": {
+                        "SQLWorkloadType": "GENERAL"
+                    },
+                    "AdditionalFeaturesServerConfigurations": {
+                        "IsRServicesEnabled": false
+                    }
+                }
+            }
+        },     
+
+        {
             "apiVersion": "2017-06-01",
             "type": "Microsoft.Network/publicIPAddresses",
-            "name": "[concat(variables('RDPpublicIPAddressName'),copyIndex(1))]",
+            "name": "[variables('VMDNS-PublicIP-Name')]",
             "location": "[variables('_location')]",
-            "copy": {
-                "name": "publicIPLoop",
-                "count": "[variables('RDPServersAmount')]"
-            },      
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
                 "dnsSettings": {
-                "domainNameLabel": "[concat(variables('RDPdnsNameForPublicIP'), copyIndex(1), '-', toLower(uniqueString(resourceGroup().id)))]"
+                    "domainNameLabel": "[variables('VMDNS-dnsName')]"
                 }
             }
-        },   
+        },
         {
             "apiVersion": "2018-04-01",
             "type": "Microsoft.Network/networkInterfaces",
-            "name": "[concat(variables('RDPnicName'),copyIndex(1))]",
+            "name": "[variables('VMDNS-nicName')]",
             "location": "[variables('_location')]",
-            "copy": {
-                "name": "nicLoop",
-                "count": "[variables('RDPServersAmount')]"
-            },      
             "dependsOn": [
-                "[variables('nicName')]",
-                "[concat('Microsoft.Network/publicIPAddresses/', variables('RDPpublicIPAddressName'),copyIndex(1))]",
-                "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"     
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('VMDNS-PublicIP-Name'))]",
+                "[concat('Microsoft.Network/virtualNetworks/', variables('CloudVNet-name'))]"
             ],
             "properties": {
                 "ipConfigurations": [
                     {
                         "name": "ipconfig1",
                         "properties": {
-                            "privateIPAllocationMethod": "Dynamic",
+                            "privateIPAllocationMethod": "static",
+                            "privateIPAddress": "[variables('VMDNS-PrivateIP')]",
                             "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(variables('RDPpublicIPAddressName'), copyIndex(1)))]"
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('VMDNS-PublicIP-Name'))]"
                             },
                             "subnet": {
-                                "id": "[variables('subnetRef')]"
+                                "id": "[variables('CloudVNet-subnet-subnetRef')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "apiVersion": "2018-04-01",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[variables('VMDNS-name')]",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkInterfaces/', variables('VMDNS-nicName'))]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[variables('VMDNS-vmsize')]"
+                },
+                "osProfile": {
+                    "computerName": "[variables('VMDNS-name')]",
+                    "adminUsername": "[variables('VMDNS-adminUsername')]",
+                    "adminPassword": "[variables('VMDNS-adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2016-Datacent",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "createOption": "FromImage"
+                    }                  
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('VMDNS-nicName'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [
+                {
+                    "type": "extensions",
+                    "name": "CustomScriptExtension",
+                    "apiVersion": "2017-03-30",
+                    "location": "[variables('_location')]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Compute/virtualMachines/', variables('VMDNS-name'))]"
+                    ],
+                    "properties": {
+                        "publisher": "Microsoft.Compute",
+                        "type": "CustomScriptExtension",
+                        "typeHandlerVersion": "1.8",
+                        "autoUpgradeMinorVersion": true,
+                        "settings": {
+                            "fileUris": [
+                                "https://raw.githubusercontent.com/Welasco/L300Config/master/./VMDNS.ps1"
+                            ],
+                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('VMDNS-scriptFolder'), '/', variables('VMDNS-scriptFileName'), ' ', variables('VMDNS-scriptParameters'))]"
+                        }
+                    }
+                }
+            ]
+        },
+
+        {
+            "apiVersion": "2017-06-01",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[concat(variables('VMSTD-PublicIP-Name'),copyIndex(1))]",
+            "location": "[variables('_location')]",
+            "copy": {
+                "name": "publicIPLoop",
+                "count": "[variables('VMSTD-Amount')]"
+            },      
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "dnsSettings": {
+                    "domainNameLabel": "[concat(variables('VMSTD-dnsName'), copyIndex(1))]"
+                }
+            }
+        },   
+        {
+            "apiVersion": "2018-04-01",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[concat(variables('VMSTD-nicName'),copyIndex(1))]",
+            "location": "[variables('_location')]",
+            "copy": {
+                "name": "nicLoop",
+                "count": "[variables('VMSTD-Amount')]"
+            },      
+            "dependsOn": [
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('VMSTD-PublicIP-Name'),copyIndex(1))]",
+                "[concat('Microsoft.Network/virtualNetworks/', variables('OnPremVNet-VPNGW-name'))]"     
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "static",
+                            "privateIPAddress": "[concat(variables('VMSTD-PrivateIP'),add(copyIndex(1),variables('VMSTD-PrivateIPInitNumb')))]",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',concat(variables('VMSTD-PublicIP-Name'),copyIndex(1)))]"
+                            },
+                            "subnet": {
+                                "id": "[variables('OnPremVNet-stdsubnet-subnetRef')]"
                             }
                         }
                     }
@@ -513,39 +767,52 @@
         {
             "apiVersion": "2018-04-01",
             "type": "Microsoft.Compute/virtualMachines",
-            "name": "[concat(variables('RDPServerName'),copyIndex(1))]",
+            "name": "[concat(variables('VMSTD-name'),copyIndex(1))]",
             "location": "[variables('_location')]",
             "copy": {
                 "name": "vmLoop",
-                "count": "[variables('RDPServersAmount')]"
+                "count": "[variables('VMSTD-Amount')]"
             },      
             "dependsOn": [
-                "[concat('Microsoft.Network/networkInterfaces/', variables('RDPnicName'), copyIndex(1))]"
+                "[concat('Microsoft.Network/networkInterfaces/', variables('VMSTD-nicName'), copyIndex(1))]"
             ],
             "properties": {
                     "hardwareProfile": {
-                    "vmSize": "Standard_D1_v2"
+                    "vmSize": "[variables('VMSTD-vmsize')]"
                 },
                 "osProfile": {
-                    "computerName": "[concat(variables('RDPServerName'),copyIndex(1))]",
-                    "adminUsername": "[variables('adminUsername')]",
-                    "adminPassword": "[variables('adminPassword')]"
+                    "computerName": "[concat(variables('VMSTD-name'),copyIndex(1))]",
+                    "adminUsername": "[variables('VMSTD-adminUsername')]",
+                    "adminPassword": "[variables('VMSTD-adminPassword')]"
                 },
                 "storageProfile": {
                     "imageReference": {
-                        "publisher": "MicrosoftWindowsServer",
-                        "offer": "WindowsServer",
-                        "sku": "2016-Datacenter",
+                        "publisher": "MicrosoftSQLServer",
+                        "offer": "SQL2017-WS2016",
+                        "sku": "SQLDEV",
                         "version": "latest"
                     },
                     "osDisk": {
                         "createOption": "FromImage"
-                    }
+                    },
+                    "dataDisks": [
+                        {
+                            "lun": 0,
+                            "name": "[concat(variables('VMSTD-name'),copyIndex(1),'-DataDisk')]",
+                            "createOption": "Empty",
+                            "caching": "ReadOnly",
+                            "writeAcceleratorEnabled": false,
+                            "managedDisk": {
+                                "storageAccountType": "Premium_LRS"
+                            },
+                            "diskSizeGB": 1023
+                        }
+                    ]  
                 },
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('RDPnicName'),copyIndex(1)))]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('VMSTD-nicName'),copyIndex(1)))]"
                         }
                     ]
                 }
@@ -557,7 +824,7 @@
                     "apiVersion": "2017-03-30",
                     "location": "[variables('_location')]",  
                     "dependsOn": [
-                        "[concat('Microsoft.Compute/virtualMachines/', variables('RDPServerName'), copyIndex(1))]"
+                        "[concat('Microsoft.Compute/virtualMachines/', variables('VMSTD-name'), copyIndex(1))]"
                     ],
                     "properties": {
                         "publisher": "Microsoft.Compute",
@@ -566,14 +833,142 @@
                         "autoUpgradeMinorVersion": true,
                         "settings": {
                             "fileUris": [
-                                "https://raw.githubusercontent.com/Welasco/ASELab/master/./CSERDP.ps1"
+                                "https://raw.githubusercontent.com/Welasco/L300Config/master/./VMSQL.ps1"
                             ],
-                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFolder'), '/', variables('RDPscriptFileName'), ' ', variables('scriptParameters'))]"
+                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('VMSTD-scriptFolder'), '/', variables('VMSTD-scriptFileName'), ' ', variables('VMSTD-scriptParameters'))]"
                         }
                     }
                 }
             ]
         },
+        {
+            "apiVersion": "2017-03-01-preview",
+            "type": "Microsoft.SqlVirtualMachine/SqlVirtualMachines",
+            "name": "[concat(variables('VMSTD-SQLSettingsName'),copyIndex(1))]",
+            "location": "[variables('_location')]",
+            "copy": {
+                "name": "VMSTDSQLLoop",
+                "count": "[variables('VMSTD-Amount')]"
+            }, 
+            "dependsOn": [
+                "[concat(resourceId('Microsoft.Compute/virtualMachines', variables('VMSTD-name'), copyIndex(1)))]"
+            ],
+            "properties": {
+                "virtualMachineResourceId": "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('VMSTD-name'), copyIndex(1)))]",
+                "AutoPatchingSettings": {
+                    "Enable": false
+                },
+                "KeyVaultCredentialSettings": {
+                    "Enable": false
+                },
+                "ServerConfigurationsManagementSettings": {
+                    "SQLConnectivityUpdateSettings": {
+                        "ConnectivityType": "PUBLIC",
+                        "Port": 1433,
+                        "SQLAuthUpdateUserName": "[variables('VMSTD-adminUsername')]",
+                        "SQLAuthUpdatePassword": "[variables('VMSTD-adminPassword')]"
+                    },
+                    "SQLWorkloadTypeUpdateSettings": {
+                        "SQLWorkloadType": "GENERAL"
+                    },
+                    "AdditionalFeaturesServerConfigurations": {
+                        "IsRServicesEnabled": false
+                    }
+                }
+            }
+        }, 
+
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2016-09-01",
+            "name": "[concat(variables('WEBFARM-name'),copyIndex(1))]",           
+            "location": "[variables('_location')]",
+            "copy": {
+                "name": "WEBFARMLoop",
+                "count": "[variables('WEBFARM-Amount-math')]"
+            },             
+            "sku": {
+              "name": "S1",
+              "tier": "Standard",
+              "capacity": 1
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(variables('WEBAPP-name'),copyIndex(1))]",   
+            "location": "[variables('_location')]",
+            "copy": {
+                "name": "WEBAPPLoop",
+                "count": "[variables('WEBAPP-Amount')]"
+            },              
+            "dependsOn": [
+                "[concat('Microsoft.Web/serverFarms/', variables('WEBFARM-name'),webserversamountindex.wevserversamount(copyIndex(1)))]"
+            ],
+            "properties": {
+                "name": "[concat(variables('WEBAPP-name'),copyIndex(1))]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverFarms/', concat(variables('WEBFARM-name'),webserversamountindex.wevserversamount(copyIndex(1))))]"
+            },
+            "resources": [
+                {
+                    "apiVersion": "2015-08-01",
+                    "name": "web",
+                    "type": "sourcecontrols",
+                    "dependsOn": [
+                        "[concat('Microsoft.Web/sites', variables('WEBAPP-name'),copyIndex(1))]"
+                    ],
+                        "properties": {
+                        "RepoUrl": "[variables('WEBAPP-repo-URL')]",
+                        "branch": "[variables('WEBAPP-repo-branch')]",
+                        "IsManualIntegration": true
+                    }
+                }
+              ]            
+        },
+        {
+              "type": "Microsoft.Web/sites/config",
+              "name": "[concat(variables('WEBAPP-config-name'),copyIndex(1), '/', 'web')]",
+              "apiVersion": "2016-08-01",
+              "location": "[variables('_location')]",
+              "scale": null,
+              "properties": {
+                  "alwaysOn": true
+              },
+              "dependsOn": [
+                  "[concat('Microsoft.Web/sites', variables('WEBAPP-name'),copyIndex(1))]"
+              ]
+        },
+        
+        {
+            "type": "Microsoft.Relay/namespaces",
+            "apiVersion": "2017-04-01",
+            "name": "[variables('SERVICEBUS-name')]",
+            "location": "[variables('_location')]",
+            "sku": {
+                "name": "Standard",
+                "tier": "Standard"
+            },
+            "properties": {
+                "serviceBusEndpoint": "[concat('https://', variables('SERVICEBUS-name'), '.servicebus.windows.net:443/')]"
+            }
+        },
+        {
+            "type": "Microsoft.Relay/namespaces/AuthorizationRules",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(variables('SERVICEBUS-name'), '/RootManageSharedAccessKey')]",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Relay/namespaces', variables('SERVICEBUS-name'))]"
+            ],
+            "properties": {
+                "rights": [
+                    "Listen",
+                    "Manage",
+                    "Send"
+                ]
+            }
+        },
+
         {
             "type": "Microsoft.Authorization/locks",
             "apiVersion": "2017-04-01",
@@ -586,9 +981,5 @@
         }  
     ],
     "outputs": {
-        "vm-fqdn": {
-            "type": "string",
-            "value": "[reference(variables('publicIPAddressName'), '2016-03-30').dnsSettings.fqdn]"
-        }
     }
   }

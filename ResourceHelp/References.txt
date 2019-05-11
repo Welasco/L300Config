@@ -28,3 +28,11 @@ https://gallery.technet.microsoft.com/scriptcenter/Connect-an-app-in-Azure-ab752
 
 
 https://github.com/Welasco/AzureTemplate/blob/master/azuredeploy.json
+
+if div X/4 = 0 then deploy +1
+if div X/4 > 0 then get mod X/4 if mod > 0 Divresult+1
+if mod > 0 then = deploy +1
+if mod = 0 then nothing
+
+
+https://samcogan.com/user-defined-functions-in-arm-templates/

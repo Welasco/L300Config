@@ -1,0 +1,70 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "first": {
+            "type": "int",
+            "defaultValue": 3,
+            "metadata": {
+                "description": "Integer being divided"
+            }
+        },
+        "second": {
+            "type": "int",
+            "defaultValue": 4,
+            "metadata": {
+                "description": "Integer used to divide"
+            }
+        },
+        "firstdiv": {
+            "type": "int",
+            "defaultValue": 3,
+            "metadata": {
+                "description": "Integer being divided"
+            }
+        },
+        "seconddiv": {
+            "type": "int",
+            "defaultValue": 4,
+            "metadata": {
+                "description": "Integer used to divide"
+            }
+        }        
+    },
+    "functions": [
+        {
+            "namespace": "webserversamountindex",
+            "members": {
+                "wevserversamount": {
+                    "parameters": [
+                        {
+                            "name": "stdsamount",
+                            "type": "int"
+                        }
+                    ],
+                    "output": {
+                        "type": "int",
+                        "value": "[if(equals(div(parameters('stdsamount'),4),0),1,0)]"
+                    }
+                }
+            }
+        }
+    ],    
+    "resources": [
+    ],
+    "outputs": {
+        "modResult": {
+            "type": "int",
+            "value": "[mod(parameters('first'), parameters('second'))]"
+        },
+        "divResult": {
+            "type": "int",
+            "value": "[div(parameters('firstdiv'), parameters('seconddiv'))]"
+        },
+        "webappamount": {
+            "type": "int",
+            "value": "[webserversamountindex.wevserversamount(3)]"
+        }          
+
+    }
+}
