@@ -36,3 +36,5 @@ if mod = 0 then nothing
 
 
 https://samcogan.com/user-defined-functions-in-arm-templates/
+
+https://docs.microsoft.com/en-us/azure/templates/

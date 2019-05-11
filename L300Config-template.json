@@ -927,7 +927,7 @@
         },
         {
               "type": "Microsoft.Web/sites/config",
-              "name": "[concat(variables('WEBAPP-config-name'),copyIndex(1), '/', 'web')]",
+              "name": "[concat(variables('WEBAPP-name'),copyIndex(1), '/', 'web')]",
               "apiVersion": "2016-08-01",
               "location": "[variables('_location')]",
               "scale": null,
