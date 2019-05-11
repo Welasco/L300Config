@@ -70,7 +70,7 @@
         "VMDNS-PublicIP-Name": "[concat(variables('rsgUniqueStr'),'VMDNS-Pub1')]",  
         "VMDNS-scriptFolder": ".",
         "VMDNS-scriptFileName": "VMDNS.ps1",   
-        "VMDNS-scriptParameters": "[concat('-UsersAmount ', parameters('StudantsAmount'), '-VMSQLNAME ', variables('VMSQL-name'),'-VMSQLIP ', variables('VMSQL-PrivateIP'), '-VMSTDNAME ', variables('VMSTD-name'),'-VMSTDIP ', variables('VMSTD-PrivateIP'),'-VMSTDIPINITNUM ', variables('VMSTD-PrivateIPInitNumb'))]",
+        "VMDNS-scriptParameters": "[concat('-UsersAmount ', parameters('StudantsAmount'), ' -VMSQLNAME ', variables('VMSQL-name'),' -VMSQLIP ', variables('VMSQL-PrivateIP'), ' -VMSTDNAME ', variables('VMSTD-name'),' -VMSTDIP ', variables('VMSTD-PrivateIP'),' -VMSTDIPINITNUM ', variables('VMSTD-PrivateIPInitNumb'))]",
         "VMDNS-dnsName": "[concat('dns',toLower(variables('VMDNS-name')))]",
         "VMDNS-vmsize": "Standard_B2ms",
         "AzureDNSServerIP": "168.63.129.16",
