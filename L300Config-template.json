@@ -53,12 +53,12 @@
         "VMSQL-adminUsername": "L300ConfigAdmin",
         "VMSQL-adminPassword": "No_P@ssw0rd!",
         "VMSQL-nicName": "[concat(variables('rsgUniqueStr'),'VMSQL-Nic')]",    
-        "VMSQL-PrivateIP": "172.30.0.4",  
+        "VMSQL-PrivateIP": "172.30.1.4",  
         "VMSQL-PublicIP-Name": "[concat(variables('rsgUniqueStr'),'VMSQL-Pub1')]",
         "VMSQL-scriptFolder": ".",
-        "VMSQL-scriptFileName": "CSE.ps1",      
+        "VMSQL-scriptFileName": "VMSQL.ps1",      
         "VMSQL-scriptParameters": "",
-        "VMSQL-dnsName": "[toLower(variables('VMSQL-name'))]",
+        "VMSQL-dnsName": "[concat('dns',toLower(variables('VMSQL-name')))]",
         "VMSQL-SQLSettingsName": "[variables('VMSQL-name')]",
         "VMSQL-vmsize": "Standard_B2ms",
         
@@ -71,8 +71,9 @@
         "VMDNS-scriptFolder": ".",
         "VMDNS-scriptFileName": "VMDNS.ps1",   
         "VMDNS-scriptParameters": "[concat('-UsersAmount ', parameters('StudantsAmount'), '-VMSQLNAME ', variables('VMSQL-name'),'-VMSQLIP ', variables('VMSQL-PrivateIP'), '-VMSTDNAME ', variables('VMSTD-name'),'-VMSTDIP ', variables('VMSTD-PrivateIP'),'-VMSTDIPINITNUM ', variables('VMSTD-PrivateIPInitNumb'))]",
-        "VMDNS-dnsName": "[toLower(variables('VMDNS-name'))]",
+        "VMDNS-dnsName": "[concat('dns',toLower(variables('VMDNS-name')))]",
         "VMDNS-vmsize": "Standard_B2ms",
+        "AzureDNSServerIP": "168.63.129.16",
 
         "VMSTD-name": "[concat(variables('rsgUniqueStr'),'VMSTD-')]",
         "VMSTD-Amount": "[parameters('StudantsAmount')]",
@@ -81,16 +82,14 @@
         "VMSTD-adminPassword": "No_P@ssw0rd!",
         "VMSTD-nicName": "[concat(variables('rsgUniqueStr'),'VMSTD-Nic-')]",
         "VMSTD-PrivateIP": "172.30.0.",
-        "VMSTD-PrivateIPInitNumb": "10",
+        "VMSTD-PrivateIPInitNumb": 10,
         "VMSTD-PublicIP-Name": "[concat(variables('rsgUniqueStr'),'VMSTD-Pub-')]",        
-        "VMSTD-dnsName": "[toLower(variables('VMSTD-name'))]",
+        "VMSTD-dnsName": "[concat('dns',toLower(variables('VMSTD-name')))]",
         "VMSTD-scriptFolder": ".",
         "VMSTD-scriptFileName": "VMSQL.ps1",  
         "VMSTD-scriptParameters": "[concat('-UsersAmount ', parameters('StudantsAmount'))]",
         "VMSTD-SQLSettingsName": "[variables('VMSTD-name')]",
         "VMSTD-vmsize": "Standard_B2ms",
-
-        "AzureDNSServerIP": "168.63.129.16",
 
         "WEBFARM-name": "[concat(variables('rsgUniqueStr'),'WEBFARM-')]",
         "WEBFARM-amount": "[parameters('StudantsAmount')]",
@@ -101,7 +100,7 @@
         "WEBAPP-repo-URL": "https://github.com/Welasco/L300TestApp.git",
         "WEBAPP-repo-branch": "master",
 
-        "SERVICEBUS-name": "[concat(variables('rsgUniqueStr'),'svcbusl300')]"
+        "SERVICEBUS-name": "[concat('svcbus-',variables('rsgUniqueStr'),'svcbusl300')]"
     },
     "functions": [
         {
@@ -208,7 +207,7 @@
             "name": "[variables('OnPremVNet-VPNGW-publicIPName')]",
             "location": "[variables('_location')]",
             "properties": {
-                "publicIPAllocationMethod": "Static"
+                "publicIPAllocationMethod": "Dynamic"
             }
         },
         {
@@ -253,7 +252,8 @@
             "dependsOn": [
                 "[concat('Microsoft.Network/virtualNetworks/', variables('CloudVNet-name'))]",
                 "[concat('Microsoft.Network/virtualNetworkGateways/', variables('CloudVNet-VPNGW-name'))]",
-                "[concat('Microsoft.Network/publicIPAddresses/', variables('CloudVNet-VPNGW-publicIPName'))]"
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('CloudVNet-VPNGW-publicIPName'))]",
+                "[concat('Microsoft.Compute/virtualMachines/', variables('VMSQL-name'))]"
             ],            
             "properties": {
                 "localNetworkAddressSpace": {
@@ -381,7 +381,7 @@
             "name": "[variables('CloudVNet-VPNGW-publicIPName')]",
             "location": "[variables('_location')]",
             "properties": {
-                "publicIPAllocationMethod": "Static"
+                "publicIPAllocationMethod": "Dynamic"
             }
         },
         {
@@ -439,7 +439,8 @@
             "dependsOn": [
                 "[concat('Microsoft.Network/virtualNetworks/', variables('OnPremVNet-name'))]",
                 "[concat('Microsoft.Network/virtualNetworkGateways/', variables('OnPremVNet-VPNGW-name'))]",
-                "[concat('Microsoft.Network/publicIPAddresses/', variables('OnPremVNet-VPNGW-publicIPName'))]"
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('OnPremVNet-VPNGW-publicIPName'))]",
+                "[concat('Microsoft.Compute/virtualMachines/', variables('VMSQL-name'))]"
             ],            
             "properties": {
                 "localNetworkAddressSpace": {
@@ -517,7 +518,9 @@
             "name": "[variables('VMSQL-name')]",
             "location": "[variables('_location')]",
             "dependsOn": [
-                "[concat('Microsoft.Network/networkInterfaces/', variables('VMSQL-nicName'))]"
+                "[concat('Microsoft.Network/networkInterfaces/', variables('VMSQL-nicName'))]",
+                "[concat('Microsoft.Network/virtualNetworkGateways/', variables('CloudVNet-VPNGW-name'))]",
+                "[concat('Microsoft.Network/virtualNetworkGateways/', variables('OnPremVNet-VPNGW-name'))]"
             ],
             "properties": {
                 "hardwareProfile": {
@@ -639,6 +642,11 @@
                 "[concat('Microsoft.Network/virtualNetworks/', variables('CloudVNet-name'))]"
             ],
             "properties": {
+                "dnsSettings":{
+                    "dnsServers":[
+                        "[variables('AzureDNSServerIP')]"
+                    ]
+                }, 
                 "ipConfigurations": [
                     {
                         "name": "ipconfig1",
@@ -677,7 +685,7 @@
                     "imageReference": {
                         "publisher": "MicrosoftWindowsServer",
                         "offer": "WindowsServer",
-                        "sku": "2016-Datacent",
+                        "sku": "2016-Datacenter",
                         "version": "latest"
                     },
                     "osDisk": {
@@ -744,7 +752,7 @@
             },      
             "dependsOn": [
                 "[concat('Microsoft.Network/publicIPAddresses/', variables('VMSTD-PublicIP-Name'),copyIndex(1))]",
-                "[concat('Microsoft.Network/virtualNetworks/', variables('OnPremVNet-VPNGW-name'))]"     
+                "[concat('Microsoft.Network/virtualNetworks/', variables('OnPremVNet-name'))]"     
             ],
             "properties": {
                 "ipConfigurations": [
@@ -851,7 +859,7 @@
                 "count": "[variables('VMSTD-Amount')]"
             }, 
             "dependsOn": [
-                "[concat(resourceId('Microsoft.Compute/virtualMachines', variables('VMSTD-name'), copyIndex(1)))]"
+                "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('VMSTD-name'), copyIndex(1)))]"
             ],
             "properties": {
                 "virtualMachineResourceId": "[resourceId('Microsoft.Compute/virtualMachines', concat(variables('VMSTD-name'), copyIndex(1)))]",
@@ -915,7 +923,7 @@
                     "name": "web",
                     "type": "sourcecontrols",
                     "dependsOn": [
-                        "[concat('Microsoft.Web/sites', variables('WEBAPP-name'),copyIndex(1))]"
+                        "[concat('Microsoft.Web/sites/', variables('WEBAPP-name'),copyIndex(1))]"
                     ],
                     "properties": {
                         "RepoUrl": "[variables('WEBAPP-repo-URL')]",
@@ -933,7 +941,7 @@
                         "alwaysOn": true
                     },
                     "dependsOn": [
-                        "[concat('Microsoft.Web/sites', variables('WEBAPP-name'),copyIndex(1))]"
+                        "[concat('Microsoft.Web/sites/', variables('WEBAPP-name'),copyIndex(1))]"
                     ]
                 },
                 {
@@ -946,7 +954,7 @@
                         "WEBSITE_DNS_SERVER": "[variables('VMDNS-PrivateIP')]"
                     },
                     "dependsOn": [
-                        "[concat('Microsoft.Web/sites', variables('WEBAPP-name'),copyIndex(1))]"
+                        "[concat('Microsoft.Web/sites/', variables('WEBAPP-name'),copyIndex(1))]"
                     ]
                 }                
               ]            

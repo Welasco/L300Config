@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "StudantsAmount": {
-            "value": "5"
+            "value": 3
         }
    }
 }

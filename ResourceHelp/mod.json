@@ -55,6 +55,15 @@
         }
     ],    
     "resources": [
+        {
+            "apiVersion": "2017-06-01",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "GW1-IP",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                
+            }
+        }
     ],
     "outputs": {
         "modResult": {
@@ -72,6 +81,10 @@
         "varresult": {
             "type": "int",
             "value": "[variables('varresult')]"
+        },
+        "IPOutput": {
+            "type": "String",
+            "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses/','GW1-IP')).IpAddress]"
         } 
 
     }
