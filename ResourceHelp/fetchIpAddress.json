@@ -9,14 +9,33 @@
             "type": "string"
         }        
     },
-    "resources": [],
+    "resources": [
+        {
+            "apiVersion": "2017-06-01",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('CloudVNetVPNGWpublicIP')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                
+            }
+        },
+        {
+            "apiVersion": "2017-06-01",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('OnPremVNetVPNGWpublicIP')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                
+            }
+        }            
+    ],
     "outputs": {
         "CloudVNetVPNGWpublicIP": {
-            "value": "[reference(parameters('CloudVNetVPNGWpublicIP'), '2017-11-01').ipAddress]",
+            "value": "[reference(resourceId('Microsoft.Network/publicIpAddresses',parameters('CloudVNetVPNGWpublicIP'))).ipAddress]",
             "type": "string"
         },
         "OnPremVNetVPNGWpublicIP": {
-            "value": "[reference(parameters('OnPremVNetVPNGWpublicIP'), '2017-11-01').ipAddress]",
+            "value": "[reference(resourceId('Microsoft.Network/publicIpAddresses',parameters('OnPremVNetVPNGWpublicIP'))).ipAddress]",
             "type": "string"
         }        
     }
