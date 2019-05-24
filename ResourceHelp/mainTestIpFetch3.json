@@ -6,9 +6,8 @@
     "variables":{
         "_location": "[resourceGroup().location]",
         "rsgUniqueStr": "piwk-",
-        "OnPremVNet-VPNGW-publicIPName": "[concat(variables('rsgUniqueStr'),'VPNGW2-PublicIP')]",
-        
-        "CloudVNet-VPNGW-publicIPName": "[concat(variables('rsgUniqueStr'),'VPNGW1-PublicIP')]"        
+        "OnPremVNet-VPNGW-publicIPName": "piwk-VPNGW2-PubIP",
+        "CloudVNet-VPNGW-publicIPName": "piwk-VPNGW1-PublicIP"        
     },
     "resources": [
         {
