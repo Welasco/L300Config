@@ -51,7 +51,65 @@
                 },
                 "gatewayIpAddress": "[reference('linkedTemplate').outputs.CloudVNetVPNGWpublicIP.value]"
             }
-        }      
+        },
+        {
+            "apiVersion": "2015-06-15",
+            "name": "[variables('OnPremVNet-VPNGW-connection-name')]",
+            "type": "Microsoft.Network/connections",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "linkedTemplate"
+            ],
+            "properties": {
+                "virtualNetworkGateway1": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworkGateways', variables('OnPremVNet-VPNGW-name'))]"
+                },
+                "localNetworkGateway2": {
+                    "id": "[resourceId('Microsoft.Network/localNetworkGateways', variables('OnPremVNet-VPNGW-localNetworkGateway-Name'))]"
+                },
+                "connectionType": "IPsec",
+                "routingWeight": 10,
+                "sharedKey": "[variables('OnPremVNet-VPNGW-connection-sharedKey')]"
+            }
+        },    
+
+        {
+            "apiVersion": "2015-06-15",
+            "type": "Microsoft.Network/localNetworkGateways",
+            "name": "[variables('CloudVNet-VPNGW-localNetworkGateway-Name')]",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "linkedTemplate"
+            ],            
+            "properties": {
+                "localNetworkAddressSpace": {
+                    "addressPrefixes": [
+                        "[variables('OnPremVNet-addressPrefix')]"
+                    ]
+                },
+                "gatewayIpAddress": "[reference('linkedTemplate').outputs.OnPremVNetVPNGWpublicIP.value]"
+            }
+        },
+        {
+            "apiVersion": "2015-06-15",
+            "name": "[variables('CloudVNet-VPNGW-connection-name')]",
+            "type": "Microsoft.Network/connections",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "linkedTemplate"
+            ],
+            "properties": {
+                "virtualNetworkGateway1": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworkGateways', variables('CloudVNet-VPNGW-name'))]"
+                },
+                "localNetworkGateway2": {
+                    "id": "[resourceId('Microsoft.Network/localNetworkGateways', variables('CloudVNet-VPNGW-localNetworkGateway-Name'))]"
+                },
+                "connectionType": "IPsec",
+                "routingWeight": 10,
+                "sharedKey": "[variables('CloudVNet-VPNGW-connection-sharedKey')]"
+            }
+        },   
 
     ],
     "outputs": {
