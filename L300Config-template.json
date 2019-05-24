@@ -406,8 +406,8 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters":{
-                    "CloudpublicIPAddressId":{"value": "[resourceId('Microsoft.Network/publicIpAddresses', variables('CloudVNet-VPNGW-publicIPName'))]"},
-                    "OnPrempublicIPAddressId":{"value": "[resourceId('Microsoft.Network/publicIpAddresses', variables('OnPremVNet-VPNGW-publicIPName'))]"}
+                    "CloudVNetVPNGWpublicIP":{"value": "[variables('CloudVNet-VPNGW-publicIPName')]"},
+                    "OnPremVNetVPNGWpublicIP":{"value": "[variables('OnPremVNet-VPNGW-publicIPName')]"}
                 }
             }
         },        
@@ -426,7 +426,7 @@
                         "[variables('CloudVNet-VPNGW-vpnClientAddressPoolPrefix')]"
                     ]
                 },
-                "gatewayIpAddress": "[reference('VPNGWfetchIpAddress').outputs.CloudpublicIPAddressId.value]"
+                "gatewayIpAddress": "[reference('VPNGWfetchIpAddress').outputs.CloudVNetVPNGWpublicIP.value]"
             }
         },  
         {
@@ -464,7 +464,7 @@
                         "[variables('OnPremVNet-addressPrefix')]"
                     ]
                 },
-                "gatewayIpAddress": "[reference('VPNGWfetchIpAddress').outputs.OnPrempublicIPAddressId.value]"
+                "gatewayIpAddress": "[reference('VPNGWfetchIpAddress').outputs.OnPremVNetVPNGWpublicIP.value]"
             }
         },
         {
