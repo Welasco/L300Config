@@ -22,8 +22,8 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters":{
-                    "CloudpublicIPAddressId":{"value": "[resourceId('Microsoft.Network/publicIpAddresses', variables('CloudVNet-VPNGW-publicIPName'))]"},
-                    "OnPrempublicIPAddressId":{"value": "[resourceId('Microsoft.Network/publicIpAddresses', variables('OnPremVNet-VPNGW-publicIPName'))]"}
+                    "CloudVNetVPNGWpublicIP":{"value": "[resourceId('Microsoft.Network/publicIpAddresses', variables('CloudVNet-VPNGW-publicIPName'))]"},
+                    "OnPremVNetVPNGWpublicIP":{"value": "[resourceId('Microsoft.Network/publicIpAddresses', variables('OnPremVNet-VPNGW-publicIPName'))]"}
                 }
             }
         }
