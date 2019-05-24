@@ -435,9 +435,7 @@
             "name": "[variables('VMSQL-name')]",
             "location": "[variables('_location')]",
             "dependsOn": [
-                "[concat('Microsoft.Network/networkInterfaces/', variables('VMSQL-nicName'))]",
-                "[concat('Microsoft.Network/virtualNetworkGateways/', variables('CloudVNet-VPNGW-name'))]",
-                "[concat('Microsoft.Network/virtualNetworkGateways/', variables('OnPremVNet-VPNGW-name'))]"
+                "[concat('Microsoft.Network/networkInterfaces/', variables('VMSQL-nicName'))]"
             ],
             "properties": {
                 "hardwareProfile": {
