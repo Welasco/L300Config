@@ -5,7 +5,7 @@
     },
     "variables":{
         "_location": "[resourceGroup().location]",
-        "rsgUniqueStr": "[concat(substring(uniqueString(resourceGroup().id), 0, 4),'-')]",
+        "rsgUniqueStr": "piwk-",
         "OnPremVNet-addressPrefix": "172.30.0.0/16",
         "OnPremVNet-VPNGW-name": "[concat(variables('rsgUniqueStr'),'VPNGW2')]",
         "OnPremVNet-VPNGW-localNetworkGateway-Name": "[concat(variables('rsgUniqueStr'),'OnPremVnet-Local-VPNGW1')]",
