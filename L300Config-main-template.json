@@ -1,0 +1,137 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "StudantsAmount": {
+            "type": "int",
+            "metadata": {
+            "description": "The amount of studants that will be attending the training."
+            }
+        }
+    },
+    "variables": {
+        "_location": "[resourceGroup().location]",
+        "rsgUniqueStr": "[concat(substring(uniqueString(resourceGroup().id), 0, 4),'-')]",
+
+        "OnPremVNet-addressPrefix": "172.30.0.0/16",
+        "OnPremVNet-VPNGW-name": "[concat(variables('rsgUniqueStr'),'VPNGW2')]",
+        "OnPremVNet-VPNGW-localNetworkGateway-Name": "[concat(variables('rsgUniqueStr'),'OnPremVnet-Local-VPNGW1')]",
+        "OnPremVNet-VPNGW-connection-name": "[concat(variables('rsgUniqueStr'),'OnPremVnet-VpnGw2-to-CloudVNet-VpnGw1')]",
+        "OnPremVNet-VPNGW-connection-sharedKey": "123abc",
+
+        "CloudVNet-addressPrefix": "172.31.0.0/16",
+        "CloudVNet-VPNGW-name": "[concat(variables('rsgUniqueStr'),'VPNGW1')]", 
+        "CloudVNet-VPNGW-vpnClientAddressPoolPrefix": "10.30.30.0/24",
+        "CloudVNet-VPNGW-localNetworkGateway-Name": "[concat(variables('rsgUniqueStr'),'CloudVNet-Local-VPNGW2')]",
+        "CloudVNet-VPNGW-connection-name": "[concat(variables('rsgUniqueStr'),'CloudVNet-VpnGw1-to-OnPremVnet-VpnGw2')]",
+        "CloudVNet-VPNGW-connection-sharedKey": "123abc"      
+
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "name": "linkedTemplate",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(deployment().properties.templateLink.uri, 'L300Config-template.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters":{
+                    "StudantsAmount":{"value": "[parameters('StudantsAmount')]"}
+                }
+            }
+        },
+
+        {
+            "apiVersion": "2015-06-15",
+            "type": "Microsoft.Network/localNetworkGateways",
+            "name": "[variables('OnPremVNet-VPNGW-localNetworkGateway-Name')]",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "linkedTemplate"
+            ],            
+            "properties": {
+                "localNetworkAddressSpace": {
+                    "addressPrefixes": [
+                        "[variables('CloudVNet-addressPrefix')]",
+                        "[variables('CloudVNet-VPNGW-vpnClientAddressPoolPrefix')]"
+                    ]
+                },
+                "gatewayIpAddress": "[reference('linkedTemplate').outputs.CloudVNetVPNGWpublicIP.value]"
+            }
+        },  
+        {
+            "apiVersion": "2015-06-15",
+            "name": "[variables('OnPremVNet-VPNGW-connection-name')]",
+            "type": "Microsoft.Network/connections",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "linkedTemplate"
+            ],
+            "properties": {
+                "virtualNetworkGateway1": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworkGateways', variables('OnPremVNet-VPNGW-name'))]"
+                },
+                "localNetworkGateway2": {
+                    "id": "[resourceId('Microsoft.Network/localNetworkGateways', variables('OnPremVNet-VPNGW-localNetworkGateway-Name'))]"
+                },
+                "connectionType": "IPsec",
+                "routingWeight": 10,
+                "sharedKey": "[variables('OnPremVNet-VPNGW-connection-sharedKey')]"
+            }
+        },    
+
+        {
+            "apiVersion": "2015-06-15",
+            "type": "Microsoft.Network/localNetworkGateways",
+            "name": "[variables('CloudVNet-VPNGW-localNetworkGateway-Name')]",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "linkedTemplate"
+            ],            
+            "properties": {
+                "localNetworkAddressSpace": {
+                    "addressPrefixes": [
+                        "[variables('OnPremVNet-addressPrefix')]"
+                    ]
+                },
+                "gatewayIpAddress": "[reference('linkedTemplate').outputs.OnPremVNetVPNGWpublicIP.value]"
+            }
+        },
+        {
+            "apiVersion": "2015-06-15",
+            "name": "[variables('CloudVNet-VPNGW-connection-name')]",
+            "type": "Microsoft.Network/connections",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "linkedTemplate"
+            ],
+            "properties": {
+                "virtualNetworkGateway1": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworkGateways', variables('CloudVNet-VPNGW-name'))]"
+                },
+                "localNetworkGateway2": {
+                    "id": "[resourceId('Microsoft.Network/localNetworkGateways', variables('CloudVNet-VPNGW-localNetworkGateway-Name'))]"
+                },
+                "connectionType": "IPsec",
+                "routingWeight": 10,
+                "sharedKey": "[variables('CloudVNet-VPNGW-connection-sharedKey')]"
+            }
+        },
+
+        {
+            "type": "Microsoft.Authorization/locks",
+            "apiVersion": "2017-04-01",
+            "name": "[resourceGroup().name]",
+            "properties":
+            {
+                "level": "CanNotDelete",
+                "notes": "This lock is to avoid accidental deletion of resource group."
+            }
+        }  
+    ],
+    "outputs": {
+    }
+  }

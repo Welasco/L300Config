@@ -244,48 +244,6 @@
                 "enableBgp": "false"
             }
         },  
-        {
-            "apiVersion": "2015-06-15",
-            "type": "Microsoft.Network/localNetworkGateways",
-            "name": "[variables('OnPremVNet-VPNGW-localNetworkGateway-Name')]",
-            "location": "[variables('_location')]",
-            "dependsOn": [
-                "[concat('Microsoft.Network/virtualNetworks/', variables('CloudVNet-name'))]",
-                "[concat('Microsoft.Network/virtualNetworkGateways/', variables('CloudVNet-VPNGW-name'))]",
-                "[concat('Microsoft.Network/publicIPAddresses/', variables('CloudVNet-VPNGW-publicIPName'))]",
-                "[concat('Microsoft.Compute/virtualMachines/', variables('VMSQL-name'))]"
-            ],            
-            "properties": {
-                "localNetworkAddressSpace": {
-                    "addressPrefixes": [
-                        "[variables('CloudVNet-addressPrefix')]",
-                        "[variables('CloudVNet-VPNGW-vpnClientAddressPoolPrefix')]"
-                    ]
-                },
-                "gatewayIpAddress": "[reference(resourceId('Microsoft.Network/publicIPAddresses',variables('CloudVNet-VPNGW-publicIPName'))).IpAddress]"
-            }
-        },  
-        {
-            "apiVersion": "2015-06-15",
-            "name": "[variables('OnPremVNet-VPNGW-connection-name')]",
-            "type": "Microsoft.Network/connections",
-            "location": "[variables('_location')]",
-            "dependsOn": [
-                "[concat('Microsoft.Network/virtualNetworkGateways/', variables('OnPremVNet-VPNGW-name'))]",
-                "[concat('Microsoft.Network/localNetworkGateways/', variables('OnPremVNet-VPNGW-localNetworkGateway-Name'))]"
-            ],
-            "properties": {
-                "virtualNetworkGateway1": {
-                    "id": "[resourceId('Microsoft.Network/virtualNetworkGateways', variables('OnPremVNet-VPNGW-name'))]"
-                },
-                "localNetworkGateway2": {
-                    "id": "[resourceId('Microsoft.Network/localNetworkGateways', variables('OnPremVNet-VPNGW-localNetworkGateway-Name'))]"
-                },
-                "connectionType": "IPsec",
-                "routingWeight": 10,
-                "sharedKey": "[variables('OnPremVNet-VPNGW-connection-sharedKey')]"
-            }
-        },    
 
         {
             "apiVersion": "2018-10-01",
@@ -429,47 +387,6 @@
                     "vpnClientRevokedCertificates": [],
                     "vpnClientIpsecPolicies": []
                 }              
-            }
-        },
-        {
-            "apiVersion": "2015-06-15",
-            "type": "Microsoft.Network/localNetworkGateways",
-            "name": "[variables('CloudVNet-VPNGW-localNetworkGateway-Name')]",
-            "location": "[variables('_location')]",
-            "dependsOn": [
-                "[concat('Microsoft.Network/virtualNetworks/', variables('OnPremVNet-name'))]",
-                "[concat('Microsoft.Network/virtualNetworkGateways/', variables('OnPremVNet-VPNGW-name'))]",
-                "[concat('Microsoft.Network/publicIPAddresses/', variables('OnPremVNet-VPNGW-publicIPName'))]",
-                "[concat('Microsoft.Compute/virtualMachines/', variables('VMSQL-name'))]"
-            ],            
-            "properties": {
-                "localNetworkAddressSpace": {
-                    "addressPrefixes": [
-                        "[variables('OnPremVNet-addressPrefix')]"
-                    ]
-                },
-                "gatewayIpAddress": "[reference(resourceId('Microsoft.Network/publicIPAddresses',variables('OnPremVNet-VPNGW-publicIPName'))).IpAddress]"
-            }
-        },
-        {
-            "apiVersion": "2015-06-15",
-            "name": "[variables('CloudVNet-VPNGW-connection-name')]",
-            "type": "Microsoft.Network/connections",
-            "location": "[variables('_location')]",
-            "dependsOn": [
-                "[concat('Microsoft.Network/virtualNetworkGateways/', variables('CloudVNet-VPNGW-name'))]",
-                "[concat('Microsoft.Network/localNetworkGateways/', variables('CloudVNet-VPNGW-localNetworkGateway-Name'))]"
-            ],
-            "properties": {
-                "virtualNetworkGateway1": {
-                    "id": "[resourceId('Microsoft.Network/virtualNetworkGateways', variables('CloudVNet-VPNGW-name'))]"
-                },
-                "localNetworkGateway2": {
-                    "id": "[resourceId('Microsoft.Network/localNetworkGateways', variables('CloudVNet-VPNGW-localNetworkGateway-Name'))]"
-                },
-                "connectionType": "IPsec",
-                "routingWeight": 10,
-                "sharedKey": "[variables('CloudVNet-VPNGW-connection-sharedKey')]"
             }
         },
 
@@ -988,19 +905,16 @@
                     "Send"
                 ]
             }
-        },
-
-        {
-            "type": "Microsoft.Authorization/locks",
-            "apiVersion": "2017-04-01",
-            "name": "[resourceGroup().name]",
-            "properties":
-            {
-                "level": "CanNotDelete",
-                "notes": "This lock is to avoid accidental deletion of resource group."
-            }
-        }  
+        }
     ],
     "outputs": {
+        "OnPremVNetVPNGWpublicIP": {
+            "type": "string",
+            "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses',variables('OnPremVNet-VPNGW-publicIPName'))).IpAddress]"
+        },
+        "CloudVNetVPNGWpublicIP": {
+            "type": "string",
+            "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses',variables('CloudVNet-VPNGW-publicIPName'))).IpAddress]"
+        }   
     }
   }

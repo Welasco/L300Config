@@ -41,3 +41,7 @@ https://docs.microsoft.com/en-us/azure/templates/
 
 Defining App Settings
 https://blogs.perficient.com/2016/03/17/azure-arm-template-define-web-app-application-settings/
+
+
+Nested
+https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-linked-templates
