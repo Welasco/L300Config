@@ -23,15 +23,15 @@
 
     ],
     "outputs": {
-        "IPOutput": {
+        "IPOutputTest": {
             "type": "String",
             "value": "[reference('linkedTemplate').outputs.ipOutput.value]"
         },
-        "OnPremVNetVPNGWpublicIP": {
+        "OnPremVNetVPNGWpublicIPTest": {
             "type": "string",
             "value": "[reference('linkedTemplate').outputs.OnPremVNetVPNGWpublicIP.value]"
         },
-        "CloudVNetVPNGWpublicIP": {
+        "CloudVNetVPNGWpublicIPTest": {
             "type": "string",
             "value": "[reference('linkedTemplate').outputs.CloudVNetVPNGWpublicIP.value]"
         }          
