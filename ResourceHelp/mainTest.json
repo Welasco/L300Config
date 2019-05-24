@@ -4,6 +4,19 @@
     "parameters": {   
     },
     "variables":{
+        "_location": "[resourceGroup().location]",
+        "OnPremVNet-addressPrefix": "172.30.0.0/16",
+        "OnPremVNet-VPNGW-name": "[concat(variables('rsgUniqueStr'),'VPNGW2')]",
+        "OnPremVNet-VPNGW-localNetworkGateway-Name": "[concat(variables('rsgUniqueStr'),'OnPremVnet-Local-VPNGW1')]",
+        "OnPremVNet-VPNGW-connection-name": "[concat(variables('rsgUniqueStr'),'OnPremVnet-VpnGw2-to-CloudVNet-VpnGw1')]",
+        "OnPremVNet-VPNGW-connection-sharedKey": "123abc",
+
+        "CloudVNet-addressPrefix": "172.31.0.0/16",
+        "CloudVNet-VPNGW-name": "[concat(variables('rsgUniqueStr'),'VPNGW1')]", 
+        "CloudVNet-VPNGW-vpnClientAddressPoolPrefix": "10.30.30.0/24",
+        "CloudVNet-VPNGW-localNetworkGateway-Name": "[concat(variables('rsgUniqueStr'),'CloudVNet-Local-VPNGW2')]",
+        "CloudVNet-VPNGW-connection-name": "[concat(variables('rsgUniqueStr'),'CloudVNet-VpnGw1-to-OnPremVnet-VpnGw2')]",
+        "CloudVNet-VPNGW-connection-sharedKey": "123abc"          
     },
     "resources": [
         {
@@ -19,7 +32,25 @@
                 "parameters":{
                 }
             }
-        }
+        },
+        {
+            "apiVersion": "2015-06-15",
+            "type": "Microsoft.Network/localNetworkGateways",
+            "name": "[variables('OnPremVNet-VPNGW-localNetworkGateway-Name')]",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "linkedTemplate"
+            ],            
+            "properties": {
+                "localNetworkAddressSpace": {
+                    "addressPrefixes": [
+                        "[variables('CloudVNet-addressPrefix')]",
+                        "[variables('CloudVNet-VPNGW-vpnClientAddressPoolPrefix')]"
+                    ]
+                },
+                "gatewayIpAddress": "[reference('linkedTemplate').outputs.CloudVNetVPNGWpublicIP.value]"
+            }
+        }      
 
     ],
     "outputs": {
