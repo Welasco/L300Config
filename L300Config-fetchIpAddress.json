@@ -1,0 +1,23 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "CloudVNetVPNGWpublicIP": {
+            "type": "string"
+        },
+        "OnPremVNetVPNGWpublicIP": {
+            "type": "string"
+        }        
+    },
+    "resources": [],
+    "outputs": {
+        "CloudVNetVPNGWpublicIP": {
+            "value": "[reference(parameters('CloudVNetVPNGWpublicIP'), '2017-11-01').ipAddress]",
+            "type": "string"
+        },
+        "OnPremVNetVPNGWpublicIP": {
+            "value": "[reference(parameters('OnPremVNetVPNGWpublicIP'), '2017-11-01').ipAddress]",
+            "type": "string"
+        }        
+    }
+}

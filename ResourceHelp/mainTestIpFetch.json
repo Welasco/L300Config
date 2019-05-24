@@ -1,0 +1,43 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {   
+    },
+    "variables":{
+        "_location": "[resourceGroup().location]",
+        "rsgUniqueStr": "piwk-",
+        "OnPremVNet-VPNGW-publicIPName": "[concat(variables('rsgUniqueStr'),'VPNGW2-PublicIP')]",
+        
+        "CloudVNet-VPNGW-publicIPName": "[concat(variables('rsgUniqueStr'),'VPNGW1-PublicIP')]"        
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "name": "linkedTemplate",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(deployment().properties.templateLink.uri, 'fetchIpAddress.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters":{
+                    "CloudpublicIPAddressId":{"value": "[resourceId('Microsoft.Network/publicIpAddresses', variables('CloudVNet-VPNGW-publicIPName'))]"},
+                    "OnPrempublicIPAddressId":{"value": "[resourceId('Microsoft.Network/publicIpAddresses', variables('OnPremVNet-VPNGW-publicIPName'))]"}
+                }
+            }
+        }
+
+    ],
+    "outputs": {
+        "OnPremVNetVPNGWpublicIPTest": {
+            "type": "string",
+            "value": "[reference('linkedTemplate').outputs.OnPremVNetVPNGWpublicIP.value]"
+        },
+        "CloudVNetVPNGWpublicIPTest": {
+            "type": "string",
+            "value": "[reference('linkedTemplate').outputs.CloudVNetVPNGWpublicIP.value]"
+        }          
+
+    }
+}

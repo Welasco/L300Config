@@ -45,3 +45,8 @@ https://blogs.perficient.com/2016/03/17/azure-arm-template-define-web-app-applic
 
 Nested
 https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-linked-templates
+
+https://github.com/Azure/azure-quickstart-templates/issues/4234
+https://github.com/Azure/azure-quickstart-templates/tree/master/201-application-gateway-webapp-iprestriction
+https://github.com/Azure/azure-quickstart-templates/blob/master/201-application-gateway-webapp-iprestriction/azuredeploy.json
+https://github.com/Azure/azure-quickstart-templates/blob/master/201-application-gateway-webapp-iprestriction/fetchIpAddress.json
