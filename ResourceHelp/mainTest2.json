@@ -109,7 +109,7 @@
                 "routingWeight": 10,
                 "sharedKey": "[variables('CloudVNet-VPNGW-connection-sharedKey')]"
             }
-        },   
+        }  
 
     ],
     "outputs": {
