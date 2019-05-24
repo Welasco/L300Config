@@ -26,7 +26,7 @@
         "OnPremVNet-gwsubnet-subnetPrefix": "172.30.2.0/24",
         "OnPremVNet-gwsubnet-subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('OnPremVNet-name'), variables('OnPremVNet-gwsubnet-name'))]",        
         "OnPremVNet-VPNGW-name": "[concat(variables('rsgUniqueStr'),'VPNGW2')]",
-        "OnPremVNet-VPNGW-publicIPName": "[concat(variables('rsgUniqueStr'),'VPNGW2-PubIP')]",
+        "OnPremVNet-VPNGW-publicIPName": "[concat(variables('rsgUniqueStr'),'VPNGW2-PublicIP')]",
         "OnPremVNet-VPNGW-SKU": "VpnGw1",
         "OnPremVNet-VPNGW-localNetworkGateway-Name": "[concat(variables('rsgUniqueStr'),'OnPremVnet-Local-VPNGW1')]",
         "OnPremVNet-VPNGW-connection-name": "[concat(variables('rsgUniqueStr'),'OnPremVnet-VpnGw2-to-CloudVNet-VpnGw1')]",

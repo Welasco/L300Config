@@ -1,0 +1,40 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {   
+    },
+    "variables":{
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "name": "linkedTemplate",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(deployment().properties.templateLink.uri, 'mod.2.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters":{
+                }
+            }
+        }
+
+    ],
+    "outputs": {
+        "IPOutput": {
+            "type": "String",
+            "value": "[reference('linkedTemplate').outputs.ipOutput.value]"
+        },
+        "OnPremVNetVPNGWpublicIP": {
+            "type": "string",
+            "value": "[reference('linkedTemplate').outputs.OnPremVNetVPNGWpublicIP.value]"
+        },
+        "CloudVNetVPNGWpublicIP": {
+            "type": "string",
+            "value": "[reference('linkedTemplate').outputs.CloudVNetVPNGWpublicIP.value]"
+        }          
+
+    }
+}
