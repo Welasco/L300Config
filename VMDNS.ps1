@@ -19,8 +19,10 @@ Add-DnsServerPrimaryZone -Name $DNSZoneName -ZoneFile "$DNSZoneName.dns"
 Add-DnsServerResourceRecordA -Name $VMSQLNAME -ZoneName $DNSZoneName -IPv4Address $VMSQLIP -TimeToLive 00:00:00
 
 $StartIPLoop = $VMSTDIPINITNUM+1
+$VMCount = 1
 for ($i = $StartIPLoop; $i -le $UsersAmount+$VMSTDIPINITNUM; $i++) {
-    Add-DnsServerResourceRecordA -Name ($VMSTDNAME+$i) -ZoneName $DNSZoneName -IPv4Address ($VMSTDIP+$i) -TimeToLive 00:00:00
+    Add-DnsServerResourceRecordA -Name ($VMSTDNAME+$VMCount) -ZoneName $DNSZoneName -IPv4Address ($VMSTDIP+$i) -TimeToLive 00:00:00
+    $VMCount++
 }
 
 netsh advfirewall firewall add rule name="ICMP Allow incoming V4 echo request" protocol=icmpv4:8,any dir=in action=allow
