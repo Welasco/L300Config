@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "CloudVNetVPNGWpublicIP": {
-            "value": "piwk-VPNGW1-PublicIP"
+            "value": "zhxn-VPNGW1-PublicIP"
         },
         "OnPremVNetVPNGWpublicIP": {
-            "value": "piwk-VPNGW2-PubIP"
+            "value": "zhxn-VPNGW2-PublicIP"
         }
    }
 }

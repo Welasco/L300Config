@@ -397,7 +397,9 @@
             "dependsOn": [
                 "[concat('Microsoft.Network/virtualNetworks/', variables('CloudVNet-name'))]",
                 "[concat('Microsoft.Network/virtualNetworkGateways/', variables('CloudVNet-VPNGW-name'))]",
-                "[concat('Microsoft.Network/publicIPAddresses/', variables('CloudVNet-VPNGW-publicIPName'))]"
+                "[concat('Microsoft.Network/virtualNetworkGateways/', variables('OnPremVNet-VPNGW-name'))]",
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('CloudVNet-VPNGW-publicIPName'))]",
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('OnPremVNet-VPNGW-publicIPName'))]"
             ],             
             "properties": {
                 "mode": "Incremental",
