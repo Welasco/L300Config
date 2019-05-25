@@ -61,7 +61,13 @@ function sqlquery(){
 }
 
 function sqlrestore(){
-    $sqlcmdoutput = sqlcmd -E -S . -b -i ($SQLBackupDir+"\L300-restore.sql")
+    param (
+        [string]$SQLUserName,
+        [string]$SQLUserPassword
+    )
+    #$sqlcmdoutput = sqlcmd -U $SQLUserName -P ("""" + $SQLUserPassword + """") -S . -b -i ($SQLBackupDir+"\L300-restore.sql")
+    $sqlcmdoutput = sqlcmd -U $SQLUserName -P $SQLUserPassword -S . -b -i ($SQLBackupDir+"\L300-restore.sql")
+    # sqlcmd -U AdminStd -P "No_P@ssw0rd!" -S . -b -i L300-restore.sql
     Log(" [INFO] SQLCMD restore Output: $sqlcmdoutput")
 }
 
@@ -121,7 +127,7 @@ for ($i = 0; $i -lt 10; $i++) {
         for ($i = 0; $i -lt 10; $i++) {
             try {
                 Log(" [INFO] Starting SQL Restore")
-                sqlrestore
+                sqlrestore -SQLUserName $SQLUserName -SQLUserPassword $SQLUserPassword
                 Log(" [INFO] Testing SQLConnection to L300DB $i")
                 sqlquery -SQLUserName $SQLUserName -SQLUserPassword $SQLUserPassword -SQLDB "L300DB"
                 Log(" [INFO] SQL Connected to L300DB")
