@@ -614,7 +614,7 @@
             }
         },     
         {
-            "name": "[concat(variables('VMSQL-name'))]",
+            "name": "[concat(variables('VMSQL-name'),'/CustomScriptExtension')]",
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "apiVersion": "2017-03-30",
             "location": "[variables('_location')]",
@@ -718,7 +718,7 @@
             }
         },
         {
-            "name": "[concat(variables('VMDNS-name'))]",
+            "name": "[concat(variables('VMDNS-name'),'/CustomScriptExtension')]",
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "apiVersion": "2017-03-30",
             "location": "[variables('_location')]",
@@ -877,7 +877,7 @@
             }
         }, 
         {
-            "name": "[concat(variables('VMSTD-name'),copyIndex(1))]",
+            "name": "[concat(variables('VMSTD-name'),copyIndex(1),'/CustomScriptExtension')]",
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "apiVersion": "2017-03-30",
             "location": "[variables('_location')]",
