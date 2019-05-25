@@ -23,6 +23,7 @@ for ($i = $StartIPLoop; $i -le $UsersAmount+$VMSTDIPINITNUM; $i++) {
     Add-DnsServerResourceRecordA -Name ($VMSTDNAME+$i) -ZoneName $DNSZoneName -IPv4Address ($VMSTDIP+$i) -TimeToLive 00:00:00
 }
 
+netsh advfirewall firewall add rule name="ICMP Allow incoming V4 echo request" protocol=icmpv4:8,any dir=in action=allow
 function Disable-InternetExplorerESC {
     $AdminKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}"
     $UserKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}"

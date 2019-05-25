@@ -57,7 +57,7 @@
         "VMSQL-PublicIP-Name": "[concat(variables('rsgUniqueStr'),'VMSQL-Pub1')]",
         "VMSQL-scriptFolder": ".",
         "VMSQL-scriptFileName": "VMSQL.ps1",      
-        "VMSQL-scriptParameters": "",
+        "VMSQL-scriptParameters": "[concat('-UsersAmount ', parameters('StudantsAmount'), ' -SQLUserName ', variables('VMSQL-adminUsername'),' -SQLUserPassword ', variables('VMSQL-adminPassword'))]",
         "VMSQL-dnsName": "[concat('dns',toLower(variables('VMSQL-name')))]",
         "VMSQL-SQLSettingsName": "[variables('VMSQL-name')]",
         "VMSQL-vmsize": "Standard_B2ms",
@@ -87,7 +87,7 @@
         "VMSTD-dnsName": "[concat('dns',toLower(variables('VMSTD-name')))]",
         "VMSTD-scriptFolder": ".",
         "VMSTD-scriptFileName": "VMSQL.ps1",  
-        "VMSTD-scriptParameters": "[concat('-UsersAmount ', parameters('StudantsAmount'))]",
+        "VMSTD-scriptParameters": "[concat('-UsersAmount ', parameters('StudantsAmount'), ' -SQLUserName ', variables('VMSTD-adminUsername'),' -SQLUserPassword ', variables('VMSTD-adminPassword'))]",
         "VMSTD-SQLSettingsName": "[variables('VMSTD-name')]",
         "VMSTD-vmsize": "Standard_B2ms",
 
