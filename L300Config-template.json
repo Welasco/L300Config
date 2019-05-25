@@ -579,30 +579,7 @@
                         }
                     ]
                 }
-            },
-            "resources": [
-                {
-                    "type": "extensions",
-                    "name": "CustomScriptExtension",
-                    "apiVersion": "2017-03-30",
-                    "location": "[variables('_location')]",
-                    "dependsOn": [
-                        "[concat('Microsoft.Compute/virtualMachines/', variables('VMSQL-name'))]"
-                    ],
-                    "properties": {
-                        "publisher": "Microsoft.Compute",
-                        "type": "CustomScriptExtension",
-                        "typeHandlerVersion": "1.8",
-                        "autoUpgradeMinorVersion": true,
-                        "settings": {
-                            "fileUris": [
-                                "https://raw.githubusercontent.com/Welasco/L300Config/master/./VMSQL.ps1"
-                            ],
-                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('VMSQL-scriptFolder'), '/', variables('VMSQL-scriptFileName'), ' ', variables('VMSQL-scriptParameters'))]"
-                        }
-                    }
-                }
-            ]
+            }
         },
         {
             "name": "[variables('VMSQL-SQLSettingsName')]",
@@ -636,6 +613,28 @@
                 }
             }
         },     
+        {
+            "name": "[concat(variables('VMSQL-name'),'-CSE')]",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2017-03-30",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', variables('VMSQL-name'))]",
+                "[concat('Microsoft.SqlVirtualMachine/SqlVirtualMachines/', variables('VMSQL-SQLSettingsName'))]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.8",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "fileUris": [
+                        "https://raw.githubusercontent.com/Welasco/L300Config/master/./VMSQL.ps1"
+                    ],
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('VMSQL-scriptFolder'), '/', variables('VMSQL-scriptFileName'), ' ', variables('VMSQL-scriptParameters'))]"
+                }
+            }
+        },        
 
         {
             "apiVersion": "2017-06-01",
@@ -716,30 +715,28 @@
                         }
                     ]
                 }
-            },
-            "resources": [
-                {
-                    "type": "extensions",
-                    "name": "CustomScriptExtension",
-                    "apiVersion": "2017-03-30",
-                    "location": "[variables('_location')]",
-                    "dependsOn": [
-                        "[concat('Microsoft.Compute/virtualMachines/', variables('VMDNS-name'))]"
+            }
+        },
+        {
+            "name": "[concat(variables('VMDNS-name'),'-CSE')]",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2017-03-30",
+            "location": "[variables('_location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', variables('VMDNS-name'))]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.8",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "fileUris": [
+                        "https://raw.githubusercontent.com/Welasco/L300Config/master/./VMDNS.ps1"
                     ],
-                    "properties": {
-                        "publisher": "Microsoft.Compute",
-                        "type": "CustomScriptExtension",
-                        "typeHandlerVersion": "1.8",
-                        "autoUpgradeMinorVersion": true,
-                        "settings": {
-                            "fileUris": [
-                                "https://raw.githubusercontent.com/Welasco/L300Config/master/./VMDNS.ps1"
-                            ],
-                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('VMDNS-scriptFolder'), '/', variables('VMDNS-scriptFileName'), ' ', variables('VMDNS-scriptParameters'))]"
-                        }
-                    }
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('VMDNS-scriptFolder'), '/', variables('VMDNS-scriptFileName'), ' ', variables('VMDNS-scriptParameters'))]"
                 }
-            ]
+            }
         },
 
         {
@@ -841,30 +838,7 @@
                         }
                     ]
                 }
-            },
-            "resources": [
-                {
-                    "type": "extensions",
-                    "name": "CustomScriptExtension",
-                    "apiVersion": "2017-03-30",
-                    "location": "[variables('_location')]",  
-                    "dependsOn": [
-                        "[concat('Microsoft.Compute/virtualMachines/', variables('VMSTD-name'), copyIndex(1))]"
-                    ],
-                    "properties": {
-                        "publisher": "Microsoft.Compute",
-                        "type": "CustomScriptExtension",
-                        "typeHandlerVersion": "1.8",
-                        "autoUpgradeMinorVersion": true,
-                        "settings": {
-                            "fileUris": [
-                                "https://raw.githubusercontent.com/Welasco/L300Config/master/./VMSQL.ps1"
-                            ],
-                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('VMSTD-scriptFolder'), '/', variables('VMSTD-scriptFileName'), ' ', variables('VMSTD-scriptParameters'))]"
-                        }
-                    }
-                }
-            ]
+            }
         },
         {
             "apiVersion": "2017-03-01-preview",
@@ -902,6 +876,32 @@
                 }
             }
         }, 
+        {
+            "name": "[concat(variables('VMSTD-name'),copyIndex(1),'-CSE')]",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2017-03-30",
+            "location": "[variables('_location')]",
+            "copy": {
+                "name": "VMSTDCSELoop",
+                "count": "[variables('VMSTD-Amount')]"
+            },                
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', variables('VMSTD-name'), copyIndex(1))]",
+                "[concat('Microsoft.SqlVirtualMachine/SqlVirtualMachines/', variables('VMSTD-SQLSettingsName'), copyIndex(1))]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.8",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "fileUris": [
+                        "https://raw.githubusercontent.com/Welasco/L300Config/master/./VMSQL.ps1"
+                    ],
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('VMSTD-scriptFolder'), '/', variables('VMSTD-scriptFileName'), ' ', variables('VMSTD-scriptParameters'))]"
+                }
+            }
+        },
 
         {
             "type": "Microsoft.Web/serverfarms",
