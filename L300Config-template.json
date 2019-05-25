@@ -614,7 +614,7 @@
             }
         },     
         {
-            "name": "[concat(variables('VMSQL-name'),'-CSE')]",
+            "name": "[concat(variables('VMSQL-name'))]",
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "apiVersion": "2017-03-30",
             "location": "[variables('_location')]",
@@ -718,7 +718,7 @@
             }
         },
         {
-            "name": "[concat(variables('VMDNS-name'),'-CSE')]",
+            "name": "[concat(variables('VMDNS-name'))]",
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "apiVersion": "2017-03-30",
             "location": "[variables('_location')]",
@@ -877,7 +877,7 @@
             }
         }, 
         {
-            "name": "[concat(variables('VMSTD-name'),copyIndex(1),'-CSE')]",
+            "name": "[concat(variables('VMSTD-name'),copyIndex(1))]",
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "apiVersion": "2017-03-30",
             "location": "[variables('_location')]",
