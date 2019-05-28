@@ -94,6 +94,9 @@
         "WEBFARM-name": "[concat(variables('rsgUniqueStr'),'WEBFARM-')]",
         "WEBFARM-amount": "[parameters('StudantsAmount')]",
         "WEBFARM-Amount-math": "[webserversamountindex.wevserversamount(variables('WEBFARM-amount'))]",
+        "WEBFARM-SKU": "P1",
+        "WEBFARM-tier": "Premium",      
+        "WEBFARM-capacity": 1,
         "WEBAPP-amount": "[parameters('StudantsAmount')]",
         "WEBAPP-name": "[concat(variables('rsgUniqueStr'),'WEBAPPSTD-')]",
         "WEBAPP-config-name": "[concat(variables('rsgUniqueStr'),'WEBAPPSTD-Config-')]",
@@ -913,9 +916,9 @@
                 "count": "[variables('WEBFARM-Amount-math')]"
             },             
             "sku": {
-              "name": "S1",
-              "tier": "Standard",
-              "capacity": 1
+              "name": "[variables('WEBFARM-SKU')]",
+              "tier": "[variables('WEBFARM-tier')]",
+              "capacity": "[variables('WEBFARM-capacity')]"
             }
         },
         {
@@ -961,6 +964,35 @@
                         "[concat('Microsoft.Web/sites/', variables('WEBAPP-name'),copyIndex(1))]"
                     ]
                 },
+                {
+                    "type": "config",
+                    "name": "connectionstrings",
+                    "apiVersion": "2016-08-01",
+                    "location": "[variables('_location')]",
+                    "scale": null,
+                    "properties": {
+                        "connectionStrings": [
+                            {
+                                "name": "1SQLDBConnection",
+                                "connectionString": "[concat('Server=tcp:',variables('VMSQL-name'),'.L300.local,1433;Data Source=',variables('VMSQL-name'),'.L300.local;Initial Catalog=L300DB;Persist Security Info=False;User ID=',variables('VMSQL-adminUsername'),';Password=',variables('VMSQL-adminPassword'),';')]",
+                                "type": 2
+                            },
+                            {
+                                "name": "2SQLDBConnection",
+                                "connectionString": "[concat('Server=tcp:',variables('WEBAPP-name'),copyIndex(1),'.L300.local,1433;Data Source=',variables('WEBAPP-name'),copyIndex(1),'.L300.local;Initial Catalog=L300DB;Persist Security Info=False;User ID=',variables('VMSTD-adminUsername'),';Password=',variables('VMSTD-adminPassword'),';')]",
+                                "type": 2
+                            },
+                            {
+                                "name": "3SQLDBConnection",
+                                "connectionString": "[concat('Server=tcp:',variables('VMSQL-name'),',1433;Data Source=',variables('VMSQL-name'),';Initial Catalog=L300DB;Persist Security Info=False;User ID=',variables('VMSQL-adminUsername'),';Password=',variables('VMSQL-adminPassword'),';')]",
+                                "type": 2
+                            }
+                        ]
+                    },
+                    "dependsOn": [
+                        "[concat('Microsoft.Web/sites/', variables('WEBAPP-name'),copyIndex(1))]"
+                    ]
+                },                
                 {
                     "type": "config",
                     "name": "appsettings",
