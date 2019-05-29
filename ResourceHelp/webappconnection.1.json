@@ -1,0 +1,79 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": { },
+    "variables": { 
+      "appSvcPlanName": "[concat('DevOpsAppSvc-', uniqueString(resourceGroup().id))]",
+      "svcPlanSize": "S1",
+      "svcPlanSku": "Standard",
+      "webAppName": "[concat('DevOpsWebApp-', uniqueString(resourceGroup().id))]"
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Web/serverfarms",
+        "apiVersion": "2016-09-01",
+        "name": "[variables('appSvcPlanName')]",
+        "location": "[resourceGroup().location]",
+        "sku": {
+          "name": "[variables('svcPlanSize')]",
+          "tier": "[variables('svcPlanSku')]",
+          "capacity": 1
+        }
+      },
+      {
+        "type": "Microsoft.Web/sites",
+        "apiVersion": "2016-08-01",
+        "name": "[variables('webAppName')]",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+          "[concat('Microsoft.Web/serverFarms/', variables('appSvcPlanName'))]"
+        ],
+        "properties": {
+          "name": "[variables('webAppName')]",
+          "serverFarmId": "[variables('appSvcPlanName')]"
+        }
+      },
+      {
+          "type": "Microsoft.Web/sites/config",
+          "name": "[concat(variables('webAppName'), '/', 'web')]",
+          "apiVersion": "2016-08-01",
+          "location": "[resourceGroup().location]",
+          "scale": null,
+          "properties": {
+              "alwaysOn": true
+          },
+          "dependsOn": [
+              "[resourceId('Microsoft.Web/sites', variables('webAppName'))]"
+          ]
+      },
+      {
+        "type": "Microsoft.Web/sites/config",
+        "name": "[concat(variables('webAppName'), '/', 'connectionstrings')]",
+        "apiVersion": "2016-08-01",
+        "location": "[resourceGroup().location]",
+        "scale": null,
+        "properties": {
+            "ConnectionStrings": [
+                {
+                    "name": "1SQLDBConnection",
+                    "connectionString": "Server=tcp:r6f3-VMSQL.L300.local,1433;Data Source=r6f3-VMSQL.L300.local;Initial Catalog=L300DB;Persist Security Info=False;User ID=L300ConfigAdmin;Password=No_P@ssw0rd!;",
+                    "type": 2
+                },
+                {
+                    "name": "2SQLDBConnection",
+                    "connectionString": "Server=tcp:r6f3-VMSTD-11.L300.local,1433;Data Source=r6f3-VMSTD-11.L300.local;Initial Catalog=L300DB;Persist Security Info=False;User ID= AdminStd;Password=No_P@ssw0rd!;",
+                    "type": 2
+                },
+                {
+                    "name": "3SQLDBConnection",
+                    "connectionString": "Server=tcp:r6f3-VMSQL,1433;Data Source=r6f3-VMSQL;Initial Catalog=L300DB;Persist Security Info=False;User ID=L300ConfigAdmin;Password=No_P@ssw0rd!;",
+                    "type": 2
+                }
+            ]
+        },
+        "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', variables('webAppName'))]"
+        ]
+      }      
+    ]
+  }

@@ -935,7 +935,33 @@
             ],
             "properties": {
                 "name": "[concat(variables('WEBAPP-name'),copyIndex(1))]",
-                "serverFarmId": "[resourceId('Microsoft.Web/serverFarms/', concat(variables('WEBFARM-name'),webserversamountindex.wevserversamount(copyIndex(1))))]"
+                "serverFarmId": "[resourceId('Microsoft.Web/serverFarms/', concat(variables('WEBFARM-name'),webserversamountindex.wevserversamount(copyIndex(1))))]",
+                "siteConfig": {
+                    "connectionStrings": [
+                        {
+                            "name": "1SQLDBConnection",
+                            "connectionString": "[concat('Server=tcp:',variables('VMSQL-name'),'.L300.local,1433;Data Source=',variables('VMSQL-name'),'.L300.local;Initial Catalog=L300DB;Persist Security Info=False;User ID=',variables('VMSQL-adminUsername'),';Password=',variables('VMSQL-adminPassword'),';')]",
+                            "type": 1
+                        },
+                        {
+                            "name": "2SQLDBConnection",
+                            "connectionString": "[concat('Server=tcp:',variables('VMSTD-name'),copyIndex(1),'.L300.local,1433;Data Source=',variables('VMSTD-name'),copyIndex(1),'.L300.local;Initial Catalog=L300DB;Persist Security Info=False;User ID=',variables('VMSTD-adminUsername'),';Password=',variables('VMSTD-adminPassword'),';')]",
+                            "type": 1
+                        },
+                        {
+                            "name": "3SQLDBConnection",
+                            "connectionString": "[concat('Server=tcp:',variables('VMSQL-name'),',1433;Data Source=',variables('VMSQL-name'),';Initial Catalog=L300DB;Persist Security Info=False;User ID=',variables('VMSQL-adminUsername'),';Password=',variables('VMSQL-adminPassword'),';')]",
+                            "type": 1
+                        }
+                    ],
+                    "appsettings":[
+                      {
+                        "name": "WEBSITE_DNS_SERVER",
+                        "value": "[variables('VMDNS-PrivateIP')]"
+                      }
+                    ],
+                    "alwaysOn": true
+                  }                
             },
             "resources": [
                 {
@@ -950,62 +976,7 @@
                         "branch": "[variables('WEBAPP-repo-branch')]",
                         "IsManualIntegration": true
                     }
-                },
-                {
-                    "type": "config",
-                    "name": "web",
-                    "apiVersion": "2016-08-01",
-                    "location": "[variables('_location')]",
-                    "scale": null,
-                    "properties": {
-                        "alwaysOn": true
-                    },
-                    "dependsOn": [
-                        "[concat('Microsoft.Web/sites/', variables('WEBAPP-name'),copyIndex(1))]"
-                    ]
-                },
-                {
-                    "type": "config",
-                    "name": "connectionstrings",
-                    "apiVersion": "2016-08-01",
-                    "location": "[variables('_location')]",
-                    "scale": null,
-                    "properties": {
-                        "connectionStrings": [
-                            {
-                                "name": "1SQLDBConnection",
-                                "connectionString": "[concat('Server=tcp:',variables('VMSQL-name'),'.L300.local,1433;Data Source=',variables('VMSQL-name'),'.L300.local;Initial Catalog=L300DB;Persist Security Info=False;User ID=',variables('VMSQL-adminUsername'),';Password=',variables('VMSQL-adminPassword'),';')]",
-                                "type": 2
-                            },
-                            {
-                                "name": "2SQLDBConnection",
-                                "connectionString": "[concat('Server=tcp:',variables('WEBAPP-name'),copyIndex(1),'.L300.local,1433;Data Source=',variables('WEBAPP-name'),copyIndex(1),'.L300.local;Initial Catalog=L300DB;Persist Security Info=False;User ID=',variables('VMSTD-adminUsername'),';Password=',variables('VMSTD-adminPassword'),';')]",
-                                "type": 2
-                            },
-                            {
-                                "name": "3SQLDBConnection",
-                                "connectionString": "[concat('Server=tcp:',variables('VMSQL-name'),',1433;Data Source=',variables('VMSQL-name'),';Initial Catalog=L300DB;Persist Security Info=False;User ID=',variables('VMSQL-adminUsername'),';Password=',variables('VMSQL-adminPassword'),';')]",
-                                "type": 2
-                            }
-                        ]
-                    },
-                    "dependsOn": [
-                        "[concat('Microsoft.Web/sites/', variables('WEBAPP-name'),copyIndex(1))]"
-                    ]
-                },                
-                {
-                    "type": "config",
-                    "name": "appsettings",
-                    "apiVersion": "2016-08-01",
-                    "location": "[variables('_location')]",
-                    "scale": null,
-                    "properties": {
-                        "WEBSITE_DNS_SERVER": "[variables('VMDNS-PrivateIP')]"
-                    },
-                    "dependsOn": [
-                        "[concat('Microsoft.Web/sites/', variables('WEBAPP-name'),copyIndex(1))]"
-                    ]
-                }                
+                }              
               ]            
         },
         

@@ -1,0 +1,61 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": { },
+    "variables": { 
+      "appSvcPlanName": "[concat('DevOpsAppSvc-', uniqueString(resourceGroup().id))]",
+      "svcPlanSize": "S1",
+      "svcPlanSku": "Standard",
+      "webAppName": "[concat('DevOpsWebApp-', uniqueString(resourceGroup().id))]"
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Web/serverfarms",
+        "apiVersion": "2016-09-01",
+        "name": "[variables('appSvcPlanName')]",
+        "location": "[resourceGroup().location]",
+        "sku": {
+          "name": "[variables('svcPlanSize')]",
+          "tier": "[variables('svcPlanSku')]",
+          "capacity": 1
+        }
+      },
+      {
+        "type": "Microsoft.Web/sites",
+        "apiVersion": "2016-08-01",
+        "name": "[variables('webAppName')]",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+          "[concat('Microsoft.Web/serverFarms/', variables('appSvcPlanName'))]"
+        ],
+        "properties": {
+          "name": "[variables('webAppName')]",
+          "serverFarmId": "[variables('appSvcPlanName')]",
+          "siteConfig": {
+            "connectionStrings": [
+              {
+                "name": "ConnString1",
+                "connectionString": "Server=myServerAddress;Database=myDataBase;Trusted_Connection=True;"
+              }
+            ]
+          }
+        },
+        "resources": [
+              
+            {
+                "type": "config",
+                "name": "appsettings",
+                "apiVersion": "2016-08-01",
+                "location": "[resourceGroup().location]",
+                "scale": null,
+                "properties": {
+                    "WEBSITE_DNS_SERVER": "8.8.8.8"
+                },
+                "dependsOn": [
+                    "[resourceId('Microsoft.Web/sites', variables('webAppName'))]"
+                ]
+            }                
+          ]                   
+      } 
+    ]
+  }
