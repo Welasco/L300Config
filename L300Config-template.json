@@ -294,7 +294,33 @@
                             "priority": 1008,
                             "direction": "Inbound"
                         }
-                    }                                               
+                    },                                               
+                    {
+                        "name": "DNS-TCP",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "53",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1009,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "DNS-UDP",
+                        "properties": {
+                            "protocol": "Udp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "53",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1010,
+                            "direction": "Inbound"
+                        }
+                    }                                                                                         
                 ]
             }
         },        
@@ -1008,18 +1034,7 @@
                     "Send"
                 ]
             }
-        },
-
-        {
-            "type": "Microsoft.Authorization/locks",
-            "apiVersion": "2017-04-01",
-            "name": "[resourceGroup().name]",
-            "properties":
-            {
-                "level": "CanNotDelete",
-                "notes": "This lock is to avoid accidental deletion of resource group."
-            }
-        }  
+        }
     ],
     "outputs": {
     }
